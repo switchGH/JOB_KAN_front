@@ -17,19 +17,21 @@ const RecordList = ({ recordList }) => {
 
     return (
         <TableBody>
-        {recordList.map(record => (
-            <TableRow key={record.id}>
-                <TableCell align="left">{record.date}</TableCell>
-                <TableCell align="left">{record.start_time}</TableCell>
-                <TableCell align="left">{record.end_time}</TableCell>
-                <TableCell align="left">{record.break_time}</TableCell>
-                <TableCell align="left">{record.work_time}</TableCell>
-                <TableCell align="center" className={classes.tableWidth}>{record.content}</TableCell>
-            </TableRow>
-        ))}
+            {recordList.map(record => (
+                <TableRow key={record.id}>
+                    <TableCell align="left">{record.date}</TableCell>
+                    <TableCell align="left">{record.start_time}</TableCell>
+                    <TableCell align="left">{record.end_time}</TableCell>
+                    <TableCell align="left">{record.break_time}</TableCell>
+                    <TableCell align="left">{record.work_time}</TableCell>
+                    <TableCell align="center" className={classes.tableWidth}>
+                        {record.content}
+                    </TableCell>
+                </TableRow>
+            ))}
         </TableBody>
-    )
-}
+    );
+};
 
 RecordList.propTypes = {
     recordList: PropTypes.arrayOf(
@@ -40,8 +42,8 @@ RecordList.propTypes = {
             end_time: PropTypes.string.isRequired,
             break_time: PropTypes.string.isRequired,
             work_time: PropTypes.string.isRequired,
-            content: PropTypes.string.isRequired
+            content: PropTypes.string.isRequired,
         }).isRequired
-    ).isRequired
-}
-export default RecordList
+    ).isRequired,
+};
+export default RecordList;

@@ -22,6 +22,5 @@ export const RoutesWithComponents = props => {
 RoutesWithComponents.propTypes = {
     component: PropTypes.any.isRequired,
     layout: PropTypes.any.isRequired,
-    path: PropTypes.string
+    path: PropTypes.string,
 };
-

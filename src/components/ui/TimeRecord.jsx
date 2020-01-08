@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(3),
     },
     cell: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     container: {
         paddingTop: theme.spacing(4),
@@ -49,8 +49,8 @@ const useStyles = makeStyles(theme => ({
 
 const TimeRecord = ({ recordList }) => {
     const classes = useStyles();
-    console.log('below is recordList')
-    console.log(recordList)
+    console.log('below is recordList');
+    console.log(recordList);
     return (
         <Container maxWidth="lg" className={classes.container}>
             <Grid container>
@@ -60,20 +60,39 @@ const TimeRecord = ({ recordList }) => {
                             <Title>2019/8</Title>
                             <Table size="medium">
                                 <TableHead>
-                                <TableRow>
-                                    <TableCell className={classes.cell}>日程</TableCell>
-                                    <TableCell className={classes.cell}>開始</TableCell>
-                                    <TableCell className={classes.cell}>終了</TableCell>
-                                    <TableCell className={classes.cell}>休憩時間</TableCell>
-                                    <TableCell className={classes.cell}>作業時間</TableCell>
-                                    <TableCell align="center" className={classes.cell}>内容</TableCell>
-                                </TableRow>
+                                    <TableRow>
+                                        <TableCell className={classes.cell}>
+                                            日程
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            開始
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            終了
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            休憩時間
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            作業時間
+                                        </TableCell>
+                                        <TableCell
+                                            align="center"
+                                            className={classes.cell}
+                                        >
+                                            内容
+                                        </TableCell>
+                                    </TableRow>
                                 </TableHead>
                                 <GetRecordList />
                             </Table>
                             <div className={classes.seeMore}>
-                                <Link color="primary" href="#" onClick={preventDefault}>
-                                See more orders
+                                <Link
+                                    color="primary"
+                                    href="#"
+                                    onClick={preventDefault}
+                                >
+                                    See more orders
                                 </Link>
                             </div>
                         </React.Fragment>
@@ -82,6 +101,6 @@ const TimeRecord = ({ recordList }) => {
             </Grid>
         </Container>
     );
-}
+};
 
-export default TimeRecord
+export default TimeRecord;

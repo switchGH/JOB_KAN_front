@@ -3,10 +3,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import { RoutesWithComponents } from './components/RoutesWithComponents';
 import { Frame } from './layout/Frame';
 
-import {
-    TimeRecord,
-    Create
-} from './components'
+import { TimeRecord, Create } from './components';
 
 export const Routes = () => {
     return (
@@ -29,5 +26,5 @@ export const Routes = () => {
                 path="/create"
             />
         </Switch>
-    )
-}
+    );
+};
