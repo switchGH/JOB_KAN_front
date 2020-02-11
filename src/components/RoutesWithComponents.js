@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 export const RoutesWithComponents = props => {
     const { layout: Layout, component: Component, ...rest } = props;
-    console.log('props');
-    console.log(props);
 
     return (
         <Route

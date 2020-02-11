@@ -20,8 +20,6 @@ const users = (state = [initalState], action) => {
                 },
             ];
         case GET_POSTS_SUCCESS:
-            console.log('below is action');
-            console.log(action.usersList[0].record);
             return [
                 ...state,
                 {

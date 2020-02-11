@@ -19,14 +19,15 @@ const RecordList = ({ recordList }) => {
         <TableBody>
             {recordList.map(record => (
                 <TableRow key={record.id}>
-                    <TableCell align="left">{record.date}</TableCell>
-                    <TableCell align="left">{record.start_time}</TableCell>
-                    <TableCell align="left">{record.end_time}</TableCell>
-                    <TableCell align="left">{record.break_time}</TableCell>
+                    <TableCell align="left" width="200">
+                        {record.year} / {record.date}
+                    </TableCell>
                     <TableCell align="left">{record.work_time}</TableCell>
+                    <TableCell align="left">{record.unit}</TableCell>
                     <TableCell align="center" className={classes.tableWidth}>
                         {record.content}
                     </TableCell>
+                    <TableCell align="right">{record.verified}</TableCell>
                 </TableRow>
             ))}
         </TableBody>

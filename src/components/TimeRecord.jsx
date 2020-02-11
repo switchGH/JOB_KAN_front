@@ -9,8 +9,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Title from './Title';
-//import RecordList from '../recordList/RcordList';
-import GetRecordList from '../../containers/GetRecordListContainer';
+import TestRecordList from './recordList/TestRecordList';
 
 // Generate Order Data
 // function createData(id, date, start_time, end_time, break_time, work_time, content) {
@@ -49,15 +48,13 @@ const useStyles = makeStyles(theme => ({
 
 const TimeRecord = ({ recordList }) => {
     const classes = useStyles();
-    console.log('below is recordList');
-    console.log(recordList);
     return (
         <Container maxWidth="lg" className={classes.container}>
             <Grid container>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <React.Fragment>
-                            <Title>2019/8</Title>
+                            <Title>一覧</Title>
                             <Table size="medium">
                                 <TableHead>
                                     <TableRow>
@@ -65,16 +62,10 @@ const TimeRecord = ({ recordList }) => {
                                             日程
                                         </TableCell>
                                         <TableCell className={classes.cell}>
-                                            開始
-                                        </TableCell>
-                                        <TableCell className={classes.cell}>
-                                            終了
-                                        </TableCell>
-                                        <TableCell className={classes.cell}>
-                                            休憩時間
-                                        </TableCell>
-                                        <TableCell className={classes.cell}>
                                             作業時間
+                                        </TableCell>
+                                        <TableCell className={classes.cell}>
+                                            コマ数
                                         </TableCell>
                                         <TableCell
                                             align="center"
@@ -82,9 +73,15 @@ const TimeRecord = ({ recordList }) => {
                                         >
                                             内容
                                         </TableCell>
+                                        <TableCell
+                                            align="right"
+                                            className={classes.cell}
+                                        >
+                                            確認ボタン
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
-                                <GetRecordList />
+                                <TestRecordList></TestRecordList>
                             </Table>
                             <div className={classes.seeMore}>
                                 <Link

@@ -98,8 +98,6 @@ const useStyles = makeStyles(theme => ({
 
 export const Frame = props => {
     const { children } = props;
-    console.log('child');
-    console.log(props);
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -124,7 +122,10 @@ export const Frame = props => {
                         color="inherit"
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                        className={clsx(
+                            classes.menuButton,
+                            open && classes.menuButtonHidden
+                        )}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -147,12 +148,17 @@ export const Frame = props => {
             <Drawer
                 variant="permanent"
                 classes={{
-                    paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                    paper: clsx(
+                        classes.drawerPaper,
+                        !open && classes.drawerPaperClose
+                    ),
                 }}
                 open={open}
             >
                 <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>{/* <ChevronLeftIcon /> */}</IconButton>
+                    <IconButton onClick={handleDrawerClose}>
+                        {/* <ChevronLeftIcon /> */}
+                    </IconButton>
                 </div>
                 <Divider />
                 <List>

@@ -28,7 +28,7 @@ export const getPosts = () => {
     return dispatch => {
         dispatch(getPostsRequest());
         return axios
-            .get(`http://localhost:3003/users`)
+            .get(`http://localhost:3003/sample`)
             .then(res => dispatch(getPostsSuccess(res.data)))
             .catch(err => dispatch(getPostsFailure(err)));
     };
