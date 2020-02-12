@@ -1,7 +1,7 @@
 import React from 'react';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -36,10 +36,9 @@ const useStyles = theme => ({
     },
 });
 
-class CreateRecord extends React.Component {
+class PostWorkTime extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             date: '2017-05-24',
             work_time: '07:30',
@@ -160,4 +159,4 @@ class CreateRecord extends React.Component {
     }
 }
 
-export default withStyles(useStyles)(CreateRecord);
+export default withStyles(useStyles)(PostWorkTime);

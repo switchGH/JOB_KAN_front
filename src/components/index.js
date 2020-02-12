@@ -1,2 +1,2 @@
-export { default as TimeRecord } from './TimeRecord';
-export { default as Create } from './CreateRecord';
+export { default as WorkTimeList } from './WorkTimeList';
+export { default as PostWorkTime } from './PostWorkTime';

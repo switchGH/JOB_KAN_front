@@ -1,11 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
-//import Record from '../Record';
 import { withStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import Circular from '../loading/Circular';
 
 const useStyles = theme => ({
     tableWidth: {
@@ -13,7 +12,7 @@ const useStyles = theme => ({
     },
 });
 
-class TestRecordList extends React.Component {
+class GetWorkTimeList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -67,15 +66,31 @@ class TestRecordList extends React.Component {
             );
         } else {
             return (
-                <div>
-                    <p>Loading...</p>
-                </div>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>
+                            <Circular />
+                        </TableCell>
+                        <TableCell>
+                            <Circular />
+                        </TableCell>
+                        <TableCell>
+                            <Circular />
+                        </TableCell>
+                        <TableCell>
+                            <Circular />
+                        </TableCell>
+                        <TableCell>
+                            <Circular />
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
             );
         }
     }
 }
 
-TestRecordList.propTypes = {
+GetWorkTimeList.propTypes = {
     recordList: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.object.isRequired,
@@ -89,4 +104,4 @@ TestRecordList.propTypes = {
     ).isRequired,
 };
 
-export default withStyles(useStyles)(TestRecordList);
+export default withStyles(useStyles)(GetWorkTimeList);

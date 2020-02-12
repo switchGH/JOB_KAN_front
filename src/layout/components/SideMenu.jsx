@@ -33,7 +33,7 @@ export const SecondaryListItems = () => {
         <div>
             <ListSubheader inset>SUB</ListSubheader>
             <ListItem button>
-                <Button component={LinkBehavior} to="/create">
+                <Button component={LinkBehavior} to="/post">
                     <ListItemIcon>
                         <CreateIcon />
                     </ListItemIcon>
