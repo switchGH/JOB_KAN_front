@@ -1,0 +1,75 @@
+swagger: '2.0'
+info:
+    description: 'これはジョブカンに関するAPIです。'
+    version: '1.0.0'
+    title: 'JOB_KAN API'
+    termsOfService: 'http://swagger.io/terms/'
+    contact:
+        email: 'apiteam@swagger.io'
+    license:
+        name: 'Apache 2.0'
+        url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: locaohost:3003
+basePath: /v1
+schemes:
+    - https
+paths:
+    /users/{userId}:
+        get:
+            summary: 'ユーザー情報API'
+            description: '指定されたuserIdの情報を返します'
+            parameters:
+                - name: 'userId'
+                  in: 'path'
+                  description: '取得したいユーザーのID'
+                  required: true
+                  type: 'integer'
+                  format: 'int64'
+            responses:
+                200:
+                    description: '成功時のレスポンス'
+                    schema:
+                        type: 'object'
+                        properties:
+                            id:
+                                type: 'integer'
+                                format: 'int64'
+                            name:
+                                type: 'string'
+                                example: 'tanoue'
+                            work_time_list:
+                                type: 'array'
+                                items:
+                                    type: 'object'
+                                    properties:
+                                        id:
+                                            type: 'integer'
+                                            format: 'int64'
+                                            example: 0
+                                        year:
+                                            type: 'string'
+                                            example: '2019'
+                                        month:
+                                            type: 'string'
+                                            example: '8'
+                                        day:
+                                            type: 'string'
+                                            example: '16'
+                                        hour:
+                                            type: 'integer'
+                                            format: 'int32'
+                                            example: 4
+                                        minutes:
+                                            type: 'integer'
+                                            format: 'int32'
+                                            example: 0
+                                        unit:
+                                            type: 'integer'
+                                            format: 'int32'
+                                            example: 2
+                                        content:
+                                            type: 'string'
+                                            example: '作業内容など'
+                                        verified:
+                                            type: 'boolean'
+                                            example: false

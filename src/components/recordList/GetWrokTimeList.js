@@ -5,6 +5,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Circular from '../loading/Circular';
+import Button from '@material-ui/core/Button';
 
 const useStyles = theme => ({
     tableWidth: {
@@ -17,18 +18,20 @@ class GetWorkTimeList extends React.Component {
         super(props);
         this.state = {
             userInfo: {},
-            recordList: [],
+            workTimeList: [],
             laoding: false,
         };
+        this.handleClick = this.handleClick.bind(this);
     }
 
     async componentDidMount() {
-        return fetch('http://localhost:3003/sample?id=1')
+        return fetch('http://localhost:3003/api/v1/work_time/0')
             .then(response => response.json())
             .then(responseJson => {
+                console.log(responseJson);
                 this.setState({
-                    userInfo: responseJson[0],
-                    recordList: responseJson[0].record,
+                    userInfo: responseJson,
+                    workTimeList: responseJson.list,
                     laoding: true,
                 });
             })
@@ -37,28 +40,49 @@ class GetWorkTimeList extends React.Component {
             });
     }
 
+    handleClick() {
+        //POSTする
+    }
+
     render() {
         const classes = this.props.classes;
         if (this.state.laoding) {
             return (
                 <TableBody>
-                    {this.state.recordList.map(record => (
-                        <TableRow key={record.id}>
+                    {this.state.workTimeList.map(work => (
+                        <TableRow key={work.id}>
                             <TableCell align="left" width="200">
-                                {record.year} / {record.date}
+                                {work.year} / {work.month} / {work.day}
                             </TableCell>
                             <TableCell align="left">
-                                {record.work_time}
+                                {work.hour}時間 {work.minutes}分
                             </TableCell>
-                            <TableCell align="left">{record.unit}</TableCell>
+                            <TableCell align="center">{work.unit}</TableCell>
                             <TableCell
                                 align="center"
                                 className={classes.tableWidth}
                             >
-                                {record.content}
+                                {work.content}
                             </TableCell>
                             <TableCell align="right">
-                                {record.verified}
+                                {work.flag ? (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        textColor="#ffffff"
+                                        onClick={this.handleClick}
+                                    >
+                                        確認済
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={this.handleClick}
+                                    >
+                                        未確認
+                                    </Button>
+                                )}
                             </TableCell>
                         </TableRow>
                     ))}

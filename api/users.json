@@ -3,92 +3,39 @@
         {
             "id": 0,
             "name": "名前1",
-            "record": [
+            "work_time_list": [
                 {
                     "id": 0,
                     "year": "2019",
-                    "date": "0827",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
+                    "month": "8",
+                    "day": "16",
+                    "hour": 4,
+                    "minutes": 0,
+                    "unit": 2,
+                    "content": "作業内容など",
+                    "verified": false
                 },
                 {
                     "id": 1,
                     "year": "2019",
-                    "date": "0828",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
+                    "month": "9",
+                    "day": "27",
+                    "hour": 4,
+                    "minutes": 0,
+                    "unit": 2,
+                    "content": "作業内容など",
+                    "verified": false
                 },
                 {
                     "id": 2,
                     "year": "2019",
-                    "date": "0927",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
-                },
-                {
-                    "id": 3,
-                    "year": "2019",
-                    "date": "0928",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
-                }
-            ]
-        },
-        {
-            "id": 1,
-            "name": "名前2",
-            "record": [
-                {
-                    "id": 0,
-                    "year": "2019",
-                    "date": "0827",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
-                },
-                {
-                    "id": 1,
-                    "year": "2019",
-                    "date": "0828",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
-                },
-                {
-                    "id": 2,
-                    "year": "2019",
-                    "date": "0927",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
-                },
-                {
-                    "id": 3,
-                    "year": "2019",
-                    "date": "0928",
-                    "start_time": "0830",
-                    "end_time": "1300",
-                    "break_time": "0030",
-                    "work_time": "0400",
-                    "content": "作業した内容など"
+                    "month": "2",
+                    "day": "27",
+                    "hour": 4,
+                    "minutes": 0,
+                    "unit": 2,
+                    "content": "作業内容など",
+                    "verified": false
                 }
             ]
         }

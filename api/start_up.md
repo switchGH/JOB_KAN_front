@@ -1,1 +1,1 @@
-json-server --watch api/sample.json -p 3003
+json-server --watch api/v1/work_time.json --routes api/routes.json -p 3003
