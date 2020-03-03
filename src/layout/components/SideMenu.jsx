@@ -96,21 +96,17 @@ export const SecondaryListItems = () => {
     return (
         <div>
             <ListSubheader inset>SUB</ListSubheader>
-            <ListItem button>
-                <Button component={LinkBehavior} to="/post">
-                    <ListItemIcon>
-                        <CreateIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="作業記録" />
-                </Button>
+            <ListItem button component={LinkBehavior} to="/post">
+                <ListItemIcon>
+                    <CreateIcon />
+                </ListItemIcon>
+                <ListItemText primary="作業記録" />
             </ListItem>
-            <ListItem button>
-                <Button component={LinkBehavior} to="/settings">
-                    <ListItemIcon>
-                        <SettingsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="設定" />
-                </Button>
+            <ListItem button component={LinkBehavior} to="/settings">
+                <ListItemIcon>
+                    <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="設定" />
             </ListItem>
         </div>
     );

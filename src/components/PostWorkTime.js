@@ -40,16 +40,36 @@ class PostWorkTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: '2017-05-24',
+            date: '2019-05-24',
             work_time: '07:30',
+            unit: 0,
             content: '',
             verified: false,
+            response: {
+                list: [],
+            },
         };
         this.changeDate = this.changeDate.bind(this);
-        this.changeTime = this.changeTime.bind(this);
+        this.changeWorkTime = this.changeWorkTime.bind(this);
+        //this.changeUnit = this.changeUnit.bind(this);
         this.changeContent = this.changeContent.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
+
+    componentDidMount() {
+        return fetch('http://localhost:3003/api/v1/work_time/0')
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson.list);
+                this.setState({
+                    response: { list: responseJson.list },
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     changeDate(e) {
         this.setState({ date: e.target.value });
     }
@@ -58,12 +78,43 @@ class PostWorkTime extends React.Component {
         this.setState({ work_time: e.target.value });
     }
 
+    // changeUnit(e) {
+    //     // unit計算を行う
+    //     this.setState({ unit: e.target.value });
+    // }
+
     changeContent(e) {
         this.setState({ content: e.target.value });
     }
 
     handleClick() {
-        console.log(this.state);
+        let userId = 0;
+        let body = {
+            year: this.state.date.split('-')[0],
+            month: this.state.date.split('-')[1],
+            day: this.state.date.split('-')[2],
+            hour: parseInt(this.state.work_time.split(':')[0], 10),
+            minutes: parseInt(this.state.work_time.split(':')[1], 10),
+            unit: this.state.unit,
+            content: this.state.content,
+            verified: this.state.verified,
+        };
+        this.state.response.list.push(body);
+        const json = this.state.response.list;
+        //console.log(this.state.response.list);
+        const method = 'POST';
+        const headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        };
+        return fetch('http://localhost:3003/api/v1/work_time/0', {
+            method,
+            headers,
+            json,
+        })
+            .then(response => response.json())
+            .then(console.log)
+            .catch(console.error);
     }
 
     render() {
@@ -83,12 +134,12 @@ class PostWorkTime extends React.Component {
                                     >
                                         <Grid
                                             item
-                                            xs={6}
+                                            xs={4}
                                             className={classes.grid}
                                         >
                                             <TextField
                                                 id="date"
-                                                label="開始時刻"
+                                                label="作業日時"
                                                 type="date"
                                                 className={classes.textField}
                                                 InputLabelProps={{
@@ -100,7 +151,7 @@ class PostWorkTime extends React.Component {
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={6}
+                                            xs={4}
                                             className={classes.grid}
                                         >
                                             <TextField
@@ -116,6 +167,22 @@ class PostWorkTime extends React.Component {
                                                 }}
                                                 value={this.state.work_time}
                                                 onChange={this.changeWorkTime}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={4}
+                                            className={classes.grid}
+                                        >
+                                            <TextField
+                                                id="unit"
+                                                label="コマ数"
+                                                type="number"
+                                                className={classes.textField}
+                                                value={this.state.unit}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
                                             />
                                         </Grid>
                                     </Grid>

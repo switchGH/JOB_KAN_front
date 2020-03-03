@@ -5,7 +5,6 @@
             "student_id": 1610370216,
             "list": [
                 {
-                    "id": 0,
                     "year": "2019",
                     "month": "1",
                     "day": "16",
@@ -16,7 +15,6 @@
                     "verified": false
                 },
                 {
-                    "id": 1,
                     "year": "2019",
                     "month": "1",
                     "day": "17",
@@ -27,7 +25,6 @@
                     "verified": false
                 },
                 {
-                    "id": 2,
                     "year": "2019",
                     "month": "2",
                     "day": "16",
@@ -38,7 +35,6 @@
                     "verified": false
                 },
                 {
-                    "id": 3,
                     "year": "2019",
                     "month": "4",
                     "day": "22",
@@ -49,7 +45,6 @@
                     "verified": false
                 },
                 {
-                    "id": 4,
                     "year": "2019",
                     "month": "12",
                     "day": "17",
@@ -60,7 +55,6 @@
                     "verified": false
                 },
                 {
-                    "id": 5,
                     "year": "2019",
                     "month": "12",
                     "day": "16",
@@ -71,7 +65,6 @@
                     "verified": false
                 },
                 {
-                    "id": 6,
                     "year": "2019",
                     "month": "12",
                     "day": "17",
