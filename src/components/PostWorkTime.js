@@ -8,7 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import Title from './Title';
 
 const useStyles = theme => ({
@@ -40,14 +39,11 @@ class PostWorkTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: '2019-05-24',
-            work_time: '07:30',
+            full_date: '',
+            worktime: '',
             unit: 0,
             content: '',
-            verified: false,
-            response: {
-                list: [],
-            },
+            verifield: false,
         };
         this.changeDate = this.changeDate.bind(this);
         this.changeWorkTime = this.changeWorkTime.bind(this);
@@ -56,26 +52,12 @@ class PostWorkTime extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    componentDidMount() {
-        return fetch('http://localhost:3003/api/v1/work_time/0')
-            .then(response => response.json())
-            .then(responseJson => {
-                console.log(responseJson.list);
-                this.setState({
-                    response: { list: responseJson.list },
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
     changeDate(e) {
-        this.setState({ date: e.target.value });
+        this.setState({ full_date: e.target.value });
     }
 
     changeWorkTime(e) {
-        this.setState({ work_time: e.target.value });
+        this.setState({ worktime: e.target.value });
     }
 
     // changeUnit(e) {
@@ -87,30 +69,23 @@ class PostWorkTime extends React.Component {
         this.setState({ content: e.target.value });
     }
 
+    // POST
     handleClick() {
-        let userId = 0;
-        let body = {
-            year: this.state.date.split('-')[0],
-            month: this.state.date.split('-')[1],
-            day: this.state.date.split('-')[2],
-            hour: parseInt(this.state.work_time.split(':')[0], 10),
-            minutes: parseInt(this.state.work_time.split(':')[1], 10),
+        const data = this.state.full_date.split('-');
+        const json = {
+            student_id: 1610370216,
+            year: data[0],
+            month: String(Number(data[1])),
+            date: String(Number(data[1])) + '/' + String(Number(data[2])),
+            worktime: this.state.worktime,
             unit: this.state.unit,
             content: this.state.content,
-            verified: this.state.verified,
+            verifield: this.state.verifield,
         };
-        this.state.response.list.push(body);
-        const json = this.state.response.list;
-        //console.log(this.state.response.list);
-        const method = 'POST';
-        const headers = {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        };
-        return fetch('http://localhost:3003/api/v1/work_time/0', {
-            method,
-            headers,
-            json,
+        return fetch('http://localhost:3002/api/v1/work-time/1610370216', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(json),
         })
             .then(response => response.json())
             .then(console.log)
@@ -127,16 +102,8 @@ class PostWorkTime extends React.Component {
                             <React.Fragment>
                                 <Title>作業記録</Title>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <Grid
-                                        container
-                                        justify="flex-start"
-                                        spacing={3}
-                                    >
-                                        <Grid
-                                            item
-                                            xs={4}
-                                            className={classes.grid}
-                                        >
+                                    <Grid container justify="flex-start" spacing={3}>
+                                        <Grid item xs={4} className={classes.grid}>
                                             <TextField
                                                 id="date"
                                                 label="作業日時"
@@ -145,15 +112,11 @@ class PostWorkTime extends React.Component {
                                                 InputLabelProps={{
                                                     shrink: true,
                                                 }}
-                                                value={this.state.date}
+                                                value={this.state.full_date}
                                                 onChange={this.changeDate}
                                             />
                                         </Grid>
-                                        <Grid
-                                            item
-                                            xs={4}
-                                            className={classes.grid}
-                                        >
+                                        <Grid item xs={4} className={classes.grid}>
                                             <TextField
                                                 id="time"
                                                 label="作業時間"
@@ -165,15 +128,11 @@ class PostWorkTime extends React.Component {
                                                 inputProps={{
                                                     step: 300, // 5 min
                                                 }}
-                                                value={this.state.work_time}
+                                                value={this.state.worktime}
                                                 onChange={this.changeWorkTime}
                                             />
                                         </Grid>
-                                        <Grid
-                                            item
-                                            xs={4}
-                                            className={classes.grid}
-                                        >
+                                        <Grid item xs={4} className={classes.grid}>
                                             <TextField
                                                 id="unit"
                                                 label="コマ数"

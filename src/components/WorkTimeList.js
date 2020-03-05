@@ -2,107 +2,140 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
+import TableContainer from '@material-ui/core/TableContainer';
+import TablePagination from '@material-ui/core/TablePagination';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import TableBody from '@material-ui/core/TableBody';
 import Paper from '@material-ui/core/Paper';
-import Title from './Title';
-import GetWorkTimeList from './recordList/GetWrokTimeList';
-
-// Generate Order Data
-// function createData(id, date, start_time, end_time, break_time, work_time, content) {
-//     return { id, date, start_time, end_time, break_time, work_time, content };
-// }
-
-// const rows = [
-//     createData(0, '8/27', '0830', '1300', '0030', '0400', '論文作成'),
-// ];
 
 function preventDefault(event) {
     event.preventDefault();
 }
 
 const useStyles = theme => ({
-    tableWidth: {
-        width: 700,
+    root: {
+        width: '100%',
     },
-    seeMore: {
-        marginTop: theme.spacing(3),
-    },
-    cell: {
-        fontWeight: 'bold',
+    container: {
+        maxHeight: 440,
     },
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-    },
 });
+
+const columns = [
+    { id: 'date', label: '日程', minWidth: 30, align: 'center' },
+    { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
+    { id: 'unit', label: 'コマ数', minWidth: 10, align: 'center' },
+    { id: 'content', label: '内容', minWidth: 700, align: 'center' },
+    { id: 'verifield', label: '確認ボタン', minWidth: 40, align: 'center' },
+];
 
 class WorkTimeList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            workTimeList: [],
+            loading: false,
+            page: 0,
+            rowsPerPage: 10,
+        };
+        this.handleChangePage = this.handleChangePage.bind(this);
+        this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+    }
+
+    componentDidMount() {
+        return fetch('http://localhost:3002/api/v1/work-time/1610370216')
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson);
+                this.setState({
+                    workTimeList: responseJson,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    handleChangePage(e, newPage) {
+        this.setState({ page: newPage });
+    }
+
+    handleChangeRowsPerPage(e) {
+        this.setState({ rowsPerPage: +e.target.value });
+        this.setState({ page: 0 });
     }
 
     render() {
         const classes = this.props.classes;
         return (
-            <Container maxWidth="lg" className={classes.container}>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                            <React.Fragment>
-                                <Title>一覧</Title>
-                                <Table size="medium">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell className={classes.cell}>
-                                                日程
-                                            </TableCell>
-                                            <TableCell className={classes.cell}>
-                                                作業時間
-                                            </TableCell>
-                                            <TableCell className={classes.cell}>
-                                                コマ数
-                                            </TableCell>
-                                            <TableCell
-                                                align="center"
-                                                className={classes.cell}
+            <Paper className={classes.root}>
+                <TableContainer className={classes.container}>
+                    <React.Fragment>
+                        <Table stickyHeader arial-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map(columns => (
+                                        <TableCell
+                                            key={columns.id}
+                                            align={columns.align}
+                                            style={{
+                                                minWidth: columns.minWidth,
+                                            }}
+                                        >
+                                            {columns.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.workTimeList
+                                    .slice(
+                                        this.state.page * this.state.rowsPerPage,
+                                        this.state.page * this.state.rowsPerPage +
+                                            this.state.rowsPerPage
+                                    )
+                                    .map(work => {
+                                        return (
+                                            <TableRow
+                                                hover
+                                                role="checkbox"
+                                                tableIndex={-1}
+                                                key={work.date}
                                             >
-                                                内容
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                className={classes.cell}
-                                            >
-                                                確認ボタン
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <GetWorkTimeList></GetWorkTimeList>
-                                </Table>
-                                <div className={classes.seeMore}>
-                                    <Link
-                                        color="primary"
-                                        href="#"
-                                        onClick={preventDefault}
-                                    >
-                                        See more orders
-                                    </Link>
-                                </div>
-                            </React.Fragment>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </Container>
+                                                {columns.map(column => {
+                                                    let value = work[column.id];
+                                                    return (
+                                                        <TableCell
+                                                            key={column.id}
+                                                            align={column.align}
+                                                        >
+                                                            {value}
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        );
+                                    })}
+                            </TableBody>
+                        </Table>
+                    </React.Fragment>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 30, 50]}
+                    component="div"
+                    count={this.state.workTimeList.length}
+                    rowsPerPage={this.state.rowsPerPage}
+                    page={this.state.page}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
+            </Paper>
         );
     }
 }

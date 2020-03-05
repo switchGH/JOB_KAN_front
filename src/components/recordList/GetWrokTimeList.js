@@ -17,7 +17,6 @@ class GetWorkTimeList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userInfo: {},
             workTimeList: [],
             laoding: false,
         };
@@ -25,13 +24,12 @@ class GetWorkTimeList extends React.Component {
     }
 
     async componentDidMount() {
-        return fetch('http://localhost:3003/api/v1/work_time/0')
+        return fetch('http://localhost:3002/api/v1/work-time/1610370216')
             .then(response => response.json())
             .then(responseJson => {
                 console.log(responseJson);
                 this.setState({
-                    userInfo: responseJson,
-                    workTimeList: responseJson.list,
+                    workTimeList: responseJson,
                     laoding: true,
                 });
             })
