@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import { RoutesWithComponents } from './components/RoutesWithComponents';
 import { Frame } from './layout/Frame';
-import { WorkTimeList, PostWorkTime, MonthlyWorkTimeList } from './components';
+import { WorkTimeList, PostWorkTime, MonthlyWorkTimeList, Statistics } from './components';
 
 export const Routes = () => {
     return (
@@ -29,6 +29,12 @@ export const Routes = () => {
                 exact
                 layout={Frame}
                 path="/post"
+            />
+            <RoutesWithComponents
+                component={Statistics}
+                exact
+                layout={Frame}
+                path="/statistics"
             />
         </Switch>
     );

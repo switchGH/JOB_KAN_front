@@ -136,7 +136,7 @@ export const Frame = props => {
                         noWrap
                         className={classes.title}
                     >
-                        ジョブカン
+                        JOB_KAN
                     </Typography>
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">

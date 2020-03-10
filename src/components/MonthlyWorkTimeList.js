@@ -3,12 +3,11 @@ import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
 import Paper from '@material-ui/core/Paper';
 import Title from './Title';
+import { Header } from './TableComponents/Header';
+import { Body } from './TableComponents/Body';
+import { createMonthlyList } from '../modules/handleArray';
 
 const useStyles = theme => ({
     root: {
@@ -16,8 +15,6 @@ const useStyles = theme => ({
     },
     container: {
         maxHeight: 440,
-    },
-    container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
@@ -35,7 +32,7 @@ class MonthlyWorkTimeList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            workTimeList: [],
+            getJsonData: [],
             page: 0,
             rowsPerPage: 10,
         };
@@ -48,7 +45,7 @@ class MonthlyWorkTimeList extends React.Component {
             .then(response => response.json())
             .then(responseJson => {
                 this.setState({
-                    workTimeList: responseJson,
+                    getJsonData: responseJson,
                 });
             })
             .catch(error => {
@@ -67,64 +64,23 @@ class MonthlyWorkTimeList extends React.Component {
     }
 
     render() {
-        let list = [];
-        this.state.workTimeList.map(data => {
-            if (data.month == this.props.match.params.id) {
-                list.push(data);
-            }
-        });
         const classes = this.props.classes;
-        const params = this.props.match.params;
+        let list = createMonthlyList(this.state.getJsonData, this.props.match.params.id);
         return (
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
                     <React.Fragment>
+                        {/* <CreateTable children={list} page={this.state.page} /> */}
                         <Table stickyHeader arial-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map(columns => (
-                                        <TableCell
-                                            key={columns.id}
-                                            align={columns.align}
-                                            style={{
-                                                minWidth: columns.minWidth,
-                                            }}
-                                        >
-                                            {columns.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {list
-                                    .slice(
-                                        this.state.page * this.state.rowsPerPage,
-                                        this.state.page * this.state.rowsPerPage +
-                                            this.state.rowsPerPage
-                                    )
-                                    .map(work => {
-                                        return (
-                                            <TableRow
-                                                hover
-                                                role="checkbox"
-                                                tableIndex={-1}
-                                                key={work.date}
-                                            >
-                                                {columns.map(column => {
-                                                    let value = work[column.id];
-                                                    return (
-                                                        <TableCell
-                                                            key={column.id}
-                                                            align={column.align}
-                                                        >
-                                                            {value}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                            </TableBody>
+                            <Header children={columns} />
+                            <Body
+                                children={{
+                                    list: list,
+                                    columns: columns,
+                                    page: this.state.page,
+                                    rowsPerPage: this.state.rowsPerPage,
+                                }}
+                            />
                         </Table>
                     </React.Fragment>
                 </TableContainer>

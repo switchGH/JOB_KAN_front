@@ -1,14 +1,11 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
 import Paper from '@material-ui/core/Paper';
+import { Header } from './TableComponents/Header';
+import { Body } from './TableComponents/Body';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -78,51 +75,15 @@ class WorkTimeList extends React.Component {
                 <TableContainer className={classes.container}>
                     <React.Fragment>
                         <Table stickyHeader arial-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map(columns => (
-                                        <TableCell
-                                            key={columns.id}
-                                            align={columns.align}
-                                            style={{
-                                                minWidth: columns.minWidth,
-                                            }}
-                                        >
-                                            {columns.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.workTimeList
-                                    .slice(
-                                        this.state.page * this.state.rowsPerPage,
-                                        this.state.page * this.state.rowsPerPage +
-                                            this.state.rowsPerPage
-                                    )
-                                    .map(work => {
-                                        return (
-                                            <TableRow
-                                                hover
-                                                role="checkbox"
-                                                tableIndex={-1}
-                                                key={work.date}
-                                            >
-                                                {columns.map(column => {
-                                                    let value = work[column.id];
-                                                    return (
-                                                        <TableCell
-                                                            key={column.id}
-                                                            align={column.align}
-                                                        >
-                                                            {value}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                            </TableBody>
+                            <Header children={columns} />
+                            <Body
+                                children={{
+                                    list: this.state.workTimeList,
+                                    columns: columns,
+                                    page: this.state.page,
+                                    rowsPerPage: this.state.rowsPerPage,
+                                }}
+                            />
                         </Table>
                     </React.Fragment>
                 </TableContainer>

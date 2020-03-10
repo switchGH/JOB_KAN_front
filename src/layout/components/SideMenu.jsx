@@ -13,6 +13,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import Collapse from '@material-ui/core/Collapse';
+import BarChar from '@material-ui/icons/BarChart';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
@@ -88,6 +89,14 @@ export const MainListItems = props => {
                     ))}
                 </List>
             </Collapse>
+            <ListItem button component={LinkBehavior} to="/statistics">
+                {/* <Button component={LinkBehavior} to="/"> */}
+                <ListItemIcon>
+                    <BarChar />
+                </ListItemIcon>
+                <ListItemText primary="統計" />
+                {/* </Button> */}
+            </ListItem>
         </div>
     );
 };
