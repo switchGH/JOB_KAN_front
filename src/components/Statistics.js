@@ -11,8 +11,8 @@ import {
     Bar,
     ComposedChart,
 } from 'recharts';
-import { UnitGraph } from './graph/UnitGraph';
-import { WorkTimeGraph } from './graph/WorkTimeGraph';
+import { UnitGraph } from './GraphComponents/UnitGraph';
+import { WorkTimeGraph } from './GraphComponents/WorkTimeGraph';
 import { isArrayExists, convertTime } from '../modules/handleArray';
 
 const useStyles = theme => ({

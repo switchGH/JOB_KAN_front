@@ -75,7 +75,7 @@ class WorkTimeList extends React.Component {
                 <TableContainer className={classes.container}>
                     <React.Fragment>
                         <Table stickyHeader arial-label="sticky table">
-                            <Header children={columns} />
+                            <Header children={{ columns: columns }} />
                             <Body
                                 children={{
                                     list: this.state.workTimeList,

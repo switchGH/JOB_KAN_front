@@ -72,7 +72,7 @@ class MonthlyWorkTimeList extends React.Component {
                     <React.Fragment>
                         {/* <CreateTable children={list} page={this.state.page} /> */}
                         <Table stickyHeader arial-label="sticky table">
-                            <Header children={columns} />
+                            <Header children={{ columns: columns }} />
                             <Body
                                 children={{
                                     list: list,
