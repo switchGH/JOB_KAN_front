@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Paper, Container, Typography } from '@material-ui/core';
-import Title from './Title';
 import {
     BarChart,
     CartesianGrid,
@@ -12,6 +11,8 @@ import {
     Bar,
     ComposedChart,
 } from 'recharts';
+import { UnitGraph } from './graph/UnitGraph';
+import { WorkTimeGraph } from './graph/WorkTimeGraph';
 import { isArrayExists, convertTime } from '../modules/handleArray';
 
 const useStyles = theme => ({
@@ -111,43 +112,8 @@ class Statistics extends React.Component {
         console.log(graphData);
         return (
             <Paper className={classes.root}>
-                <Container className={classes.container} align="center">
-                    <Typography variant="h6" component="h6" className={classes.title}>
-                        作業時間
-                    </Typography>
-                    <BarChart width={800} height={400} data={graphData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="worktime" fill="#8884d8" />
-                    </BarChart>
-                </Container>
-                <Container className={classes.container} align="center">
-                    <Typography variant="h6" component="h6" className={classes.title}>
-                        コマ数
-                    </Typography>
-                    <ComposedChart
-                        width={800}
-                        height={150}
-                        data={this.state.unit_data}
-                        layout="vertical"
-                    >
-                        <XAxis type="number" domain={[0, 100]} />
-                        <YAxis type="category" dataKey="name" />
-                        <Tooltip />
-                        <Legend />
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <Bar
-                            dataKey="unit"
-                            barSize={40}
-                            //stroke="rgba(34, 80, 162, 0.2)"
-                            fillOpacity={1}
-                            fill="#82ca9d"
-                        />
-                    </ComposedChart>
-                </Container>
+                <WorkTimeGraph children={{ graphData: graphData }} />
+                <UnitGraph children={{ unit_data: this.state.unit_data }} />
             </Paper>
         );
     }

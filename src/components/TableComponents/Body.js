@@ -4,18 +4,15 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 
 export function Body(props) {
+    const { list, page, rowsPerPage, columns } = props.children;
     return (
         <TableBody>
-            {props.children.list
-                .slice(
-                    props.children.page * props.children.rowsPerPage,
-                    props.children.page * props.children.rowsPerPage +
-                        props.children.rowsPerPage
-                )
+            {list
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(work => {
                     return (
                         <TableRow hover role="checkbox" tableIndex={-1} key={work.date}>
-                            {props.children.columns.map(column => {
+                            {columns.map(column => {
                                 let value = work[column.id];
                                 return (
                                     <TableCell key={column.id} align={column.align}>

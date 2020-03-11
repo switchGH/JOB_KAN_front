@@ -4,7 +4,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
 export function Header(props) {
-    const columns = props.children;
+    const { columns } = props.children;
     return (
         <TableHead>
             <TableRow>
