@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Divider from '@material-ui/core/Divider';
@@ -12,8 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { MainListItems, SecondaryListItems } from './components/SideMenu';
 import clsx from 'clsx';
+import { requestLogout } from '../actions/auth';
 
 const drawerWidth = 240;
 
@@ -96,8 +99,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export const Frame = props => {
-    const { children } = props;
+const Frame = props => {
+    const { children, auth } = props;
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -108,6 +111,10 @@ export const Frame = props => {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    const handleLogout = () => {
+        props.dispatch(requestLogout());
+    };
 
     return (
         <div className={classes.root}>
@@ -131,17 +138,28 @@ export const Frame = props => {
                     </IconButton>
                     <Typography
                         component="h1"
-                        variant="h6"
+                        variant="h4"
                         color="inherit"
                         noWrap
                         className={classes.title}
                     >
                         JOB_KAN
                     </Typography>
-                    <IconButton color="inherit">
+                    {/* <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />
                         </Badge>
+                    </IconButton> */}
+                    <Typography
+                        component="h1"
+                        variant="h6"
+                        color="inherit"
+                        noWrap
+                    >
+                        ようこそ {auth.user.name} さん！
+                    </Typography>
+                    <IconButton color="inherit" onClick={handleLogout}>
+                        <ExitToAppIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
@@ -181,3 +199,9 @@ export const Frame = props => {
 Frame.propTypes = {
     children: PropTypes.node,
 };
+
+function mapStateToProps({ auth }) {
+    return { auth };
+}
+
+export default connect(mapStateToProps)(Frame);

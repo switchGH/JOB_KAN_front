@@ -1,10 +1,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
-import Title from './Title';
 import { Header } from './TableComponents/Header';
 import { Body } from './TableComponents/Body';
 import { createMonthlyList } from '../modules/handleArray';
@@ -41,7 +43,8 @@ class MonthlyWorkTimeList extends React.Component {
     }
 
     componentDidMount() {
-        return fetch('http://localhost:3002/api/v1/work-time/1610370216')
+        const studentId = this.props.auth.user.studentId;
+        return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
             .then(response => response.json())
             .then(responseJson => {
                 this.setState({
@@ -65,7 +68,10 @@ class MonthlyWorkTimeList extends React.Component {
 
     render() {
         const classes = this.props.classes;
-        let list = createMonthlyList(this.state.getJsonData, this.props.match.params.id);
+        let list = createMonthlyList(
+            this.state.getJsonData,
+            this.props.match.params.id
+        );
         return (
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
@@ -98,4 +104,11 @@ class MonthlyWorkTimeList extends React.Component {
     }
 }
 
-export default withStyles(useStyles)(MonthlyWorkTimeList);
+function mapStateToProps({ auth }) {
+    return { auth };
+}
+
+export default compose(
+    withStyles(useStyles),
+    connect(mapStateToProps)
+)(MonthlyWorkTimeList);

@@ -1,8 +1,15 @@
 import React from 'react';
-import { Switch, Redirect } from 'react-router-dom';
-import { RoutesWithComponents } from './components/RoutesWithComponents';
-import { Frame } from './layout/Frame';
-import { WorkTimeList, PostWorkTime, MonthlyWorkTimeList, Statistics } from './components';
+import { Switch, Redirect, Route } from 'react-router-dom';
+import { RoutesWithComponents } from './components/RootComponents/RoutesWithComponents';
+import Frame from './layout/Frame';
+import { AuthFrame } from './layout/AuthFrame';
+import {
+    WorkTimeList,
+    PostWorkTime,
+    MonthlyWorkTimeList,
+    Statistics,
+} from './components';
+import { Login, UserOnly } from './components/AuthComponents';
 
 export const Routes = () => {
     return (
@@ -12,6 +19,13 @@ export const Routes = () => {
                 from="/"
                 to="/"
             /> */}
+            <RoutesWithComponents
+                component={Login}
+                exact
+                layout={AuthFrame}
+                path="/login"
+            />
+            {/* <Route component={UserOnly}> */}
             <RoutesWithComponents
                 component={WorkTimeList}
                 exact
@@ -36,6 +50,7 @@ export const Routes = () => {
                 layout={Frame}
                 path="/statistics"
             />
+            {/* </Route> */}
         </Switch>
     );
 };

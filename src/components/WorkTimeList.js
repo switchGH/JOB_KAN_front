@@ -1,5 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -46,10 +49,15 @@ class WorkTimeList extends React.Component {
     }
 
     componentDidMount() {
-        return fetch('http://localhost:3002/api/v1/work-time/1610370216')
+        // 認証
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
+        // データ取得
+        const studentId = this.props.auth.user.studentId;
+        return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
             .then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson);
                 this.setState({
                     workTimeList: responseJson,
                 });
@@ -69,13 +77,17 @@ class WorkTimeList extends React.Component {
     }
 
     render() {
-        const classes = this.props.classes;
+        const { classes } = this.props;
         return (
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
                     <React.Fragment>
                         <Table stickyHeader arial-label="sticky table">
-                            <Header children={{ columns: columns }} />
+                            <Header
+                                children={{
+                                    columns: columns,
+                                }}
+                            />
                             <Body
                                 children={{
                                     list: this.state.workTimeList,
@@ -101,4 +113,11 @@ class WorkTimeList extends React.Component {
     }
 }
 
-export default withStyles(useStyles)(WorkTimeList);
+function mapStateToProps({ auth }) {
+    return { auth };
+}
+
+export default compose(
+    withStyles(useStyles),
+    connect(mapStateToProps)
+)(WorkTimeList);

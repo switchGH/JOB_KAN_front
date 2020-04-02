@@ -6,6 +6,7 @@ export const RoutesWithComponents = props => {
     const { layout: Layout, component: Component, ...rest } = props;
 
     return (
+        // <Route component={UserOnly}>
         <Route
             {...rest}
             render={matchProps => (
@@ -14,6 +15,7 @@ export const RoutesWithComponents = props => {
                 </Layout>
             )}
         />
+        // </Route>
     );
 };
 

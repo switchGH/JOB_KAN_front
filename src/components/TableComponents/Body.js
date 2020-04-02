@@ -11,11 +11,14 @@ export function Body(props) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(work => {
                     return (
-                        <TableRow hover role="checkbox" tableIndex={-1} key={work.date}>
+                        <TableRow hover role="checkbox" key={work.date}>
                             {columns.map(column => {
                                 let value = work[column.id];
                                 return (
-                                    <TableCell key={column.id} align={column.align}>
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                    >
                                         {value}
                                     </TableCell>
                                 );

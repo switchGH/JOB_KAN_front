@@ -1,5 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
 import { Paper, Container, Typography } from '@material-ui/core';
 import {
     BarChart,
@@ -14,6 +16,7 @@ import {
 import { UnitGraph } from './GraphComponents/UnitGraph';
 import { WorkTimeGraph } from './GraphComponents/WorkTimeGraph';
 import { isArrayExists, convertTime } from '../modules/handleArray';
+import { connect } from 'react-redux';
 
 const useStyles = theme => ({
     root: {
@@ -45,7 +48,13 @@ class Statistics extends React.Component {
     }
 
     componentDidMount() {
-        return fetch('http://localhost:3002/api/v1/work-time/1610370216')
+        // 認証
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
+        // データ取得
+        const studentId = this.props.auth.user.surdentId;
+        return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
             .then(response => response.json())
             .then(responseJson => {
                 this.setState({
@@ -119,4 +128,11 @@ class Statistics extends React.Component {
     }
 }
 
-export default withStyles(useStyles)(Statistics);
+function mapStateToProps({ auth }) {
+    return { auth };
+}
+
+export default compose(
+    withStyles(useStyles),
+    connect(mapStateToProps)
+)(Statistics);

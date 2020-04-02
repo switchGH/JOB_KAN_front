@@ -2,13 +2,16 @@ import React from 'react';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { push } from 'connected-react-router';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Title from './Title';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = theme => ({
     container: {
@@ -52,6 +55,13 @@ class PostWorkTime extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    componentDidMount() {
+        // 認証
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
+    }
+
     changeDate(e) {
         this.setState({ full_date: e.target.value });
     }
@@ -77,7 +87,12 @@ class PostWorkTime extends React.Component {
             year: data[0],
             month: String(Number(data[1])),
             day: String(Number(data[2])),
-            date: data[0] + '/' + String(Number(data[1])) + '/' + String(Number(data[2])),
+            date:
+                data[0] +
+                '/' +
+                String(Number(data[1])) +
+                '/' +
+                String(Number(data[2])),
             worktime: this.state.worktime,
             unit: this.state.unit,
             content: this.state.content,
@@ -101,10 +116,25 @@ class PostWorkTime extends React.Component {
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <React.Fragment>
-                                <Title>作業記録</Title>
+                                <Typography
+                                    component="h2"
+                                    variant="h6"
+                                    color="primary"
+                                    gutterBottom
+                                >
+                                    作業時間登録
+                                </Typography>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <Grid container justify="flex-start" spacing={3}>
-                                        <Grid item xs={4} className={classes.grid}>
+                                    <Grid
+                                        container
+                                        justify="flex-start"
+                                        spacing={3}
+                                    >
+                                        <Grid
+                                            item
+                                            xs={4}
+                                            className={classes.grid}
+                                        >
                                             <TextField
                                                 id="date"
                                                 label="作業日時"
@@ -117,7 +147,11 @@ class PostWorkTime extends React.Component {
                                                 onChange={this.changeDate}
                                             />
                                         </Grid>
-                                        <Grid item xs={4} className={classes.grid}>
+                                        <Grid
+                                            item
+                                            xs={4}
+                                            className={classes.grid}
+                                        >
                                             <TextField
                                                 id="time"
                                                 label="作業時間"
@@ -133,7 +167,11 @@ class PostWorkTime extends React.Component {
                                                 onChange={this.changeWorkTime}
                                             />
                                         </Grid>
-                                        <Grid item xs={4} className={classes.grid}>
+                                        <Grid
+                                            item
+                                            xs={4}
+                                            className={classes.grid}
+                                        >
                                             <TextField
                                                 id="unit"
                                                 label="コマ数"
@@ -186,4 +224,11 @@ class PostWorkTime extends React.Component {
     }
 }
 
-export default withStyles(useStyles)(PostWorkTime);
+function mapStateToProps({ auth }) {
+    return { auth };
+}
+
+export default compose(
+    withStyles(useStyles),
+    connect(mapStateToProps)
+)(PostWorkTime);
