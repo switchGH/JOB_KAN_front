@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 export function Header(props) {
     const { columns } = props.children;
     return (
-        <TableHead>
+        <TableHead style={{ backgroundColor: '#D9E5FF' }}>
             <TableRow>
                 {columns.map(columns => (
                     <TableCell

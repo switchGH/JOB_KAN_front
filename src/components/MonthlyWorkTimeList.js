@@ -27,7 +27,6 @@ const columns = [
     { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
     { id: 'unit', label: 'コマ数', minWidth: 10, align: 'center' },
     { id: 'content', label: '内容', minWidth: 700, align: 'center' },
-    { id: 'verifield', label: '確認ボタン', minWidth: 40, align: 'center' },
 ];
 
 class MonthlyWorkTimeList extends React.Component {

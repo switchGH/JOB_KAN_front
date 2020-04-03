@@ -1,7 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography } from '@material-ui/core';
-import { CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, BarChart } from 'recharts';
+import {
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    Bar,
+    BarChart,
+} from 'recharts';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -16,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 export function WorkTimeGraph(props) {
     const classes = useStyles();
     const { graphData } = props.children;
+    console.log(graphData);
     return (
         <Container className={classes.container} align="center">
             <Typography variant="h6" component="h6" className={classes.title}>

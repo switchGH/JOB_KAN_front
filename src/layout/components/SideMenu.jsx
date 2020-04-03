@@ -8,10 +8,12 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import CreateIcon from '@material-ui/icons/Create';
 import SettingsIcon from '@material-ui/icons/Settings';
+import AccoutIcon from '@material-ui/icons/AccountCircle';
 import Calendar from '@material-ui/icons/CalendarToday';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import CalendarIcon from '@material-ui/icons/DateRange';
 import Collapse from '@material-ui/core/Collapse';
 import BarChar from '@material-ui/icons/BarChart';
 import { Link as RouterLink } from 'react-router-dom';
@@ -56,12 +58,21 @@ export const MainListItems = props => {
 
     return (
         <div>
+            <ListSubheader inset>Main</ListSubheader>
             <ListItem button component={LinkBehavior} to="/">
                 {/* <Button component={LinkBehavior} to="/"> */}
                 <ListItemIcon>
                     <ReorderIcon />
                 </ListItemIcon>
                 <ListItemText primary="作業記録一覧" />
+                {/* </Button> */}
+            </ListItem>
+            <ListItem button component={LinkBehavior} to="/calendar">
+                {/* <Button component={LinkBehavior} to="/"> */}
+                <ListItemIcon>
+                    <CalendarIcon />
+                </ListItemIcon>
+                <ListItemText primary="カレンダー" />
                 {/* </Button> */}
             </ListItem>
             <ListItem button onClick={handleClick}>
@@ -97,6 +108,12 @@ export const MainListItems = props => {
                 <ListItemText primary="統計" />
                 {/* </Button> */}
             </ListItem>
+            <ListItem button component={LinkBehavior} to="/post">
+                <ListItemIcon>
+                    <CreateIcon />
+                </ListItemIcon>
+                <ListItemText primary="作業記録" />
+            </ListItem>
         </div>
     );
 };
@@ -104,18 +121,18 @@ export const MainListItems = props => {
 export const SecondaryListItems = () => {
     return (
         <div>
-            <ListSubheader inset>SUB</ListSubheader>
-            <ListItem button component={LinkBehavior} to="/post">
-                <ListItemIcon>
-                    <CreateIcon />
-                </ListItemIcon>
-                <ListItemText primary="作業記録" />
-            </ListItem>
+            <ListSubheader inset>Other</ListSubheader>
             <ListItem button component={LinkBehavior} to="/settings">
+                <ListItemIcon>
+                    <AccoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="設定" />
+            </ListItem>
+            <ListItem button component={LinkBehavior} to="/about">
                 <ListItemIcon>
                     <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary="設定" />
+                <ListItemText primary="サイトについて" />
             </ListItem>
         </div>
     );

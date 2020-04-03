@@ -53,7 +53,7 @@ class Statistics extends React.Component {
             this.props.dispatch(push('/login'));
         }
         // データ取得
-        const studentId = this.props.auth.user.surdentId;
+        const studentId = this.props.auth.user.studentId;
         return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
             .then(response => response.json())
             .then(responseJson => {
@@ -118,7 +118,6 @@ class Statistics extends React.Component {
     render() {
         const classes = this.props.classes;
         const graphData = this.createGraphData();
-        console.log(graphData);
         return (
             <Paper className={classes.root}>
                 <WorkTimeGraph children={{ graphData: graphData }} />

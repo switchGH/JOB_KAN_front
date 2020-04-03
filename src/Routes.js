@@ -5,9 +5,12 @@ import Frame from './layout/Frame';
 import { AuthFrame } from './layout/AuthFrame';
 import {
     WorkTimeList,
+    Calendars,
     PostWorkTime,
     MonthlyWorkTimeList,
     Statistics,
+    Settings,
+    About,
 } from './components';
 import { Login, UserOnly } from './components/AuthComponents';
 
@@ -33,6 +36,12 @@ export const Routes = () => {
                 path="/"
             />
             <RoutesWithComponents
+                component={Calendars}
+                exact
+                layout={Frame}
+                path="/calendar"
+            />
+            <RoutesWithComponents
                 component={MonthlyWorkTimeList}
                 exact
                 layout={Frame}
@@ -49,6 +58,18 @@ export const Routes = () => {
                 exact
                 layout={Frame}
                 path="/statistics"
+            />
+            <RoutesWithComponents
+                component={Settings}
+                exact
+                layout={Frame}
+                path="/settings"
+            />
+            <RoutesWithComponents
+                component={About}
+                exact
+                layout={Frame}
+                path="/about"
             />
             {/* </Route> */}
         </Switch>
