@@ -3,7 +3,6 @@ import {
     requestLogin,
     failureLogin,
     successLogin,
-    requestLogout,
     successLogout,
 } from '../actions/auth';
 
@@ -25,7 +24,7 @@ const initialState = {
 
 const auth = createReducer(
     {
-        [requestLogin]: state =>
+        [requestLogin]: (state) =>
             Object.assign({}, state, {
                 isRequest: true,
                 error: undefined,

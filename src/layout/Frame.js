@@ -2,25 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import clsx from 'clsx';
+import {
+    Divider,
+    List,
+    Drawer,
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+    CssBaseline,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { MainListItems, SecondaryListItems } from './components/SideMenu';
-import clsx from 'clsx';
 import { requestLogout } from '../actions/auth';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Frame = props => {
+const Frame = (props) => {
     const { children, auth } = props;
 
     const classes = useStyles();

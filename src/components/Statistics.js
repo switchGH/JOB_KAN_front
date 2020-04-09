@@ -1,33 +1,22 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { push } from 'connected-react-router';
-import { compose } from 'redux';
-import { Paper, Container, Typography } from '@material-ui/core';
-import {
-    BarChart,
-    CartesianGrid,
-    XAxis,
-    YAxis,
-    Tooltip,
-    Legend,
-    Bar,
-    ComposedChart,
-} from 'recharts';
-import { UnitGraph } from './GraphComponents/UnitGraph';
-import { WorkTimeGraph } from './GraphComponents/WorkTimeGraph';
-import { isArrayExists, convertTime } from '../modules/handleArray';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { PropTypes } from 'prop-types';
+import { Container, Grid } from '@material-ui/core';
+import { WorkTimeBarGraph } from './GraphComponents/WorkTimeBarGraph';
+import { UnitBarGraph } from './GraphComponents/UnitBarGraph';
+import { TotalMonthTime } from './GraphComponents/TotalMonthTime';
+import { isArrayExists } from '../modules/handleArray';
 
-const useStyles = theme => ({
-    root: {
-        width: '100%',
-    },
+const useStyles = (theme) => ({
     container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
     },
-    title: {
-        padding: theme.spacing(1),
+    grid: {
+        align: 'center',
     },
 });
 
@@ -35,8 +24,7 @@ class Statistics extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            getJsonData: [],
-            worktime_data: [],
+            responseJson: [],
             unit_data: [
                 {
                     name: 'コマ数',
@@ -44,85 +32,70 @@ class Statistics extends React.Component {
                 },
             ],
         };
-        //this.calculateWorkTime = this.calculateWorkTime.bind(this);
     }
 
     componentDidMount() {
         // 認証
-        if (!this.props.auth.isLoggedIn) {
-            this.props.dispatch(push('/login'));
-        }
+        // if (!this.props.auth.isLoggedIn) {
+        //     this.props.dispatch(push('/login'));
+        // }
         // データ取得
-        const studentId = this.props.auth.user.studentId;
+        // const studentId = this.props.auth.user.studentId;
+        const studentId = 1610370216;
         return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
-            .then(response => response.json())
-            .then(responseJson => {
+            .then((response) => response.json())
+            .then((responseJson) => {
                 this.setState({
-                    getJsonData: responseJson,
+                    responseJson: responseJson,
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error);
             });
     }
 
     // 雛形を作成
-    // createArray() {
-    //     const list = this.state.workTimeList;
-    //     for (let i = 0; i < list.length; i++) {
-    //         let { judge, index } = isArrayExists(
-    //             this.state.worktime_data,
-    //             list[i].year,
-    //             list[i].month
-    //         );
-    //         //console.log({ judge, index });
-    //         if (judge == 'NoExit') {
-    //             this.state.worktime_data.push({
-    //                 year: list[i].year,
-    //                 month: list[i].month,
-    //                 worktime: convertTime(list[i].worktime),
-    //             });
-    //         } else if (judge == 'Exit') {
-    //             let ct = convertTime(list[i].worktime);
-    //             this.state.worktime_data[index].worktime += ct;
-    //         }
-    //     }
-    // }
-
-    createGraphData() {
-        const allList = this.state.getJsonData;
-        let graphData = [];
-        for (let i = 0; i < allList.length; i++) {
-            let { judge, index } = isArrayExists(
-                graphData,
-                allList[i].year,
-                allList[i].month
-            );
+    createArray() {
+        const resJson = this.state.responseJson;
+        const worklist = [];
+        for (let i = 0; i < resJson.length; i++) {
+            const { year, month } = resJson[i].date;
+            const second = resJson[i].time.convert_sec;
+            // 同じ年月のものがないか確認
+            let { judge, index } = isArrayExists(worklist, year, month);
+            // 同じ日付がないなら、配列を作成
             if (judge == 'NoExit') {
-                graphData.push({
-                    year: allList[i].year,
-                    month: allList[i].month,
-                    name: allList[i].year + '/' + allList[i].month,
-                    worktime: convertTime(allList[i].worktime),
+                worklist.push({
+                    date: year + '/' + month,
+                    year: year,
+                    month: month,
+                    worktime: second,
                 });
+                // 同じ日付が既に存在するなら、その配列に作業時間を加算
             } else if (judge == 'Exit') {
-                let ct = convertTime(allList[i].worktime);
-                graphData[index].worktime += ct;
+                worklist[index].worktime += second;
             }
         }
-        return graphData;
+        return worklist;
     }
 
-    // コマ数計算
-
     render() {
+        const worklist = this.createArray();
         const classes = this.props.classes;
-        const graphData = this.createGraphData();
         return (
-            <Paper className={classes.root}>
-                <WorkTimeGraph children={{ graphData: graphData }} />
-                <UnitGraph children={{ unit_data: this.state.unit_data }} />
-            </Paper>
+            <Container className={classes.container}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <WorkTimeBarGraph data={worklist} />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TotalMonthTime data={worklist} />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <UnitBarGraph data={this.state.responseJson} />
+                    </Grid>
+                </Grid>
+            </Container>
         );
     }
 }
@@ -130,6 +103,11 @@ class Statistics extends React.Component {
 function mapStateToProps({ auth }) {
     return { auth };
 }
+
+Statistics.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+};
 
 export default compose(
     withStyles(useStyles),

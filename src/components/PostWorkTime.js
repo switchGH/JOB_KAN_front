@@ -4,16 +4,19 @@ import DateFnsUtils from '@date-io/date-fns';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { PropTypes } from 'prop-types';
 import { push } from 'connected-react-router';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import {
+    Container,
+    Grid,
+    Paper,
+    TextField,
+    Button,
+    Typography,
+} from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
@@ -44,13 +47,10 @@ class PostWorkTime extends React.Component {
         this.state = {
             full_date: '',
             worktime: '',
-            unit: 0,
             content: '',
-            verifield: false,
         };
         this.changeDate = this.changeDate.bind(this);
         this.changeWorkTime = this.changeWorkTime.bind(this);
-        //this.changeUnit = this.changeUnit.bind(this);
         this.changeContent = this.changeContent.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
@@ -70,42 +70,57 @@ class PostWorkTime extends React.Component {
         this.setState({ worktime: e.target.value });
     }
 
-    // changeUnit(e) {
-    //     // unit計算を行う
-    //     this.setState({ unit: e.target.value });
-    // }
-
     changeContent(e) {
         this.setState({ content: e.target.value });
     }
 
     // POST
     handleClick() {
-        const data = this.state.full_date.split('-');
+        const studentId = this.props.auth.user.studentId;
+        const year = parseInt(
+            this.state.full_date.split('-')[0],
+            10
+        ).toString();
+        const month = parseInt(
+            this.state.full_date.split('-')[1],
+            10
+        ).toString();
+        const day = parseInt(this.state.full_date.split('-')[2], 10).toString();
+
+        // POSTデータ
         const json = {
-            student_id: 1610370216,
-            year: data[0],
-            month: String(Number(data[1])),
-            day: String(Number(data[2])),
-            date:
-                data[0] +
-                '/' +
-                String(Number(data[1])) +
-                '/' +
-                String(Number(data[2])),
-            worktime: this.state.worktime,
-            unit: this.state.unit,
+            studentId: studentId,
+            date: {
+                full_date: year + '/' + month + '/' + day,
+                year: year,
+                month: month,
+                day: day,
+            },
+            time: {
+                display: this.state.worktime,
+                convert_sec: this.calSecond(this.state.worktime),
+            },
             content: this.state.content,
-            verifield: this.state.verifield,
         };
-        return fetch('http://localhost:3002/api/v1/work-time/1610370216', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify(json),
-        })
-            .then(response => response.json())
+        //console.log(JSON.stringify(json));
+
+        return fetch(
+            'http://localhost:3002/api/v1/work-time/' + `${studentId}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                body: JSON.stringify(json),
+            }
+        )
+            .then((response) => response.json())
             .then(console.log)
             .catch(console.error);
+    }
+
+    calSecond(time) {
+        const hour = parseInt(time.split(':')[0], 10) * 3600;
+        const minutes = parseInt(time.split(':')[1], 10) * 60;
+        return hour + minutes;
     }
 
     render() {
@@ -167,22 +182,6 @@ class PostWorkTime extends React.Component {
                                                 onChange={this.changeWorkTime}
                                             />
                                         </Grid>
-                                        <Grid
-                                            item
-                                            xs={4}
-                                            className={classes.grid}
-                                        >
-                                            <TextField
-                                                id="unit"
-                                                label="コマ数"
-                                                type="number"
-                                                className={classes.textField}
-                                                value={this.state.unit}
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                            />
-                                        </Grid>
                                     </Grid>
                                 </MuiPickersUtilsProvider>
                                 <Grid
@@ -227,6 +226,11 @@ class PostWorkTime extends React.Component {
 function mapStateToProps({ auth }) {
     return { auth };
 }
+
+PostWorkTime.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+};
 
 export default compose(
     withStyles(useStyles),

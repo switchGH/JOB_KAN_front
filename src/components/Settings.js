@@ -2,14 +2,12 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { push } from 'connected-react-router';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import Calendar from 'react-calendar';
+import { Paper, Grid, Container } from '@material-ui/core';
 import 'react-calendar/dist/Calendar.css';
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
@@ -41,6 +39,11 @@ class Settings extends React.Component {
 function mapStateToProps({ auth }) {
     return { auth };
 }
+
+Settings.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+};
 
 export default compose(
     withStyles(useStyles),

@@ -1,18 +1,17 @@
 import React from 'react';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
+import PropTypes from 'prop-types';
+import { TableCell, TableRow, TableBody } from '@material-ui/core';
 
 export function Body(props) {
-    const { list, page, rowsPerPage, columns } = props.children;
+    const { list, page, rowsPerPage, columns } = props.data;
     return (
         <TableBody>
             {list
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(work => {
+                .map((work) => {
                     return (
                         <TableRow hover role="checkbox" key={work.date}>
-                            {columns.map(column => {
+                            {columns.map((column) => {
                                 let value = work[column.id];
                                 return (
                                     <TableCell
@@ -29,3 +28,7 @@ export function Body(props) {
         </TableBody>
     );
 }
+
+Body.propTypes = {
+    data: PropTypes.object.isRequired,
+};

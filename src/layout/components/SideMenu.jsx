@@ -1,10 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import {
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    ListSubheader,
+    Collapse,
+} from '@material-ui/core';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import CreateIcon from '@material-ui/icons/Create';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -14,12 +17,10 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import CalendarIcon from '@material-ui/icons/DateRange';
-import Collapse from '@material-ui/core/Collapse';
 import BarChar from '@material-ui/icons/BarChart';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     // root: {
     //     width: '100%',
     //     maxWidth: 360,
@@ -34,9 +35,10 @@ const LinkBehavior = React.forwardRef((props, ref) => (
     <RouterLink ref={ref} {...props} />
 ));
 
-export const MainListItems = props => {
+export const MainListItems = (props) => {
     const classes = useStyles();
     const year = [
+        { id: 1, month: '1月' },
         { id: 2, month: '2月' },
         { id: 3, month: '3月' },
         { id: 4, month: '4月' },
@@ -48,7 +50,6 @@ export const MainListItems = props => {
         { id: 10, month: '10月' },
         { id: 11, month: '11月' },
         { id: 12, month: '12月' },
-        { id: 1, month: '1月' },
     ];
     const [open, setOpen] = React.useState(true);
 
@@ -60,20 +61,16 @@ export const MainListItems = props => {
         <div>
             <ListSubheader inset>Main</ListSubheader>
             <ListItem button component={LinkBehavior} to="/">
-                {/* <Button component={LinkBehavior} to="/"> */}
                 <ListItemIcon>
                     <ReorderIcon />
                 </ListItemIcon>
                 <ListItemText primary="作業記録一覧" />
-                {/* </Button> */}
             </ListItem>
             <ListItem button component={LinkBehavior} to="/calendar">
-                {/* <Button component={LinkBehavior} to="/"> */}
                 <ListItemIcon>
                     <CalendarIcon />
                 </ListItemIcon>
                 <ListItemText primary="カレンダー" />
-                {/* </Button> */}
             </ListItem>
             <ListItem button onClick={handleClick}>
                 <ListItemIcon>
@@ -84,7 +81,7 @@ export const MainListItems = props => {
             </ListItem>
             <Collapse in={!open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {year.map(data => (
+                    {year.map((data) => (
                         <ListItem
                             button
                             component={LinkBehavior}

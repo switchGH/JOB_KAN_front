@@ -11,15 +11,6 @@ export function isArrayExists(array, year, month) {
     return { judge: 'NoExit', index: 0 };
 }
 
-// 作業時間のパース
-export function convertTime(time) {
-    const data = time.split(':');
-    const hour = parseInt(data[0]);
-    let minutes = new Decimal(data[1]);
-    minutes = minutes.dividedBy(60).toFixed(2);
-    return new Decimal(hour).plus(minutes).toNumber();
-}
-
 // 月 昇順ソート
 
 // 日 ソート

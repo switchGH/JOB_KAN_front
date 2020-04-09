@@ -12,7 +12,7 @@ info:
 host: locaohost:3003
 basePath: /v1
 schemes:
-    - https
+    - http
 paths:
     /users/{userId}:
         get:
@@ -73,3 +73,60 @@ paths:
                                         verified:
                                             type: 'boolean'
                                             example: false
+    /work-time/{studentId}:
+        post:
+            summary: '作業時間登録API'
+            description: '指定されたstudentIdの作業時間情報を登録します'
+            parameters:
+                - name: 'studentId'
+                  in: 'path'
+                  description: 'ユーザーID'
+                  required: true
+                  type: 'integer'
+                  format: 'int64'
+            responses:
+                200:
+                    description: '成功時のレスポンス'
+                    schema:
+                        type: 'object'
+                        properties:
+                            _id:
+                                type: 'integer'
+                                format: 'int64'
+                            studentId:
+                              type: 'integer'
+                              format: 'int64'
+                              example: 1610370216
+                            date:
+                                type: 'object'
+                                properties:
+                                    full_date:
+                                        type: 'string'
+                                        example: 2020/4/21
+                                    year:
+                                        type: 'string'
+                                        example: '2020'
+                                    month:
+                                        type: 'string'
+                                        example: '4'
+                                    day:
+                                        type: 'string'
+                                        example: '16'
+                            time:
+                                type: 'object'
+                                properties:
+                                    display:
+                                        type: 'string'
+                                        example: '03:30'
+                                    convert_sec:
+                                        type: 'integer'
+                                        format: 'int64'
+                                        example: 12600
+                            unit:
+                                type: 'integer'
+                                format: 'int64'
+                                example: 2
+                            content:
+                                type: 'string'
+                                example: 'アプリケーションの開発'
+                            

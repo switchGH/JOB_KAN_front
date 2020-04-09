@@ -2,21 +2,23 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { push } from 'connected-react-router';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Container from '@material-ui/core/Container';
+import {
+    Paper,
+    Grid,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Container,
+} from '@material-ui/core';
 import Calendar from 'react-calendar';
 import { Header } from './TableComponents/Header';
 import 'react-calendar/dist/Calendar.css';
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
@@ -44,7 +46,6 @@ const useStyles = theme => ({
 const columns = [
     { id: 'date', label: '日程', minWidth: 30, align: 'center' },
     { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
-    { id: 'unit', label: 'コマ数', minWidth: 10, align: 'center' },
     { id: 'content', label: '内容', minWidth: 700, align: 'center' },
 ];
 
@@ -53,27 +54,28 @@ class Calendars extends React.Component {
         super(props);
         this.state = {
             date: new Date(),
-            format_date: this.formatDate(new Date(), 'YYYY/MM/DD'),
-            work_time_list: [],
-            list: [],
+            //format_date: this.formatDate(new Date(), 'YYYY/MM/DD'),
+            responseJson: [],
+            worklist: [],
         };
     }
 
     componentDidMount() {
         // 認証
-        if (!this.props.auth.isLoggedIn) {
-            this.props.dispatch(push('/login'));
-        }
+        // if (!this.props.auth.isLoggedIn) {
+        //     this.props.dispatch(push('/login'));
+        // }
         // データ取得
-        const studentId = this.props.auth.user.studentId;
+        const studentId = 1610370216;
+        //const studentId = this.props.auth.user.studentId;
         return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
-            .then(res => res.json())
-            .then(resJson => {
+            .then((res) => res.json())
+            .then((resJson) => {
                 this.setState({
-                    work_time_list: resJson,
+                    responseJson: resJson,
                 });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
     }
@@ -86,25 +88,27 @@ class Calendars extends React.Component {
         return format;
     }
 
-    onChange = date => {
+    onChange = (date) => {
         this.setState({ date });
-        const d = this.formatDate(date, 'YYYY/MM/DD');
-        this.state.format_date = d;
-
+        const format_d = this.formatDate(date, 'YYYY/MM/DD');
         // 目的日のデータ取得
-        const arr = this.state.work_time_list;
-        let time = [];
-        for (let i in arr) {
-            if (arr[i].date == d) {
-                time.push(arr[i]);
+        const resJson = this.state.responseJson;
+        let monthData = [];
+        for (let i in resJson) {
+            if (resJson[i].date.full_date.replace(/-/g, '/') == format_d) {
+                monthData.push({
+                    _id: resJson[i]._id,
+                    full_date: resJson[i].date.full_date,
+                    worktime: resJson[i].time.display,
+                    content: resJson[i].content,
+                });
                 break;
             }
         }
-        this.setState({ list: time });
+        this.setState({ worklist: monthData });
     };
 
     render() {
-        console.log(this.state);
         const { classes } = this.props;
         return (
             <Container maxWidth="lg" className={classes.container}>
@@ -130,7 +134,7 @@ class Calendars extends React.Component {
                             >
                                 <Header children={{ columns: columns }} />
                                 <TableBody>
-                                    {this.state.list.map(row => (
+                                    {this.state.worklist.map((row) => (
                                         <TableRow key={row._id}>
                                             <TableCell
                                                 component="th"
@@ -140,7 +144,7 @@ class Calendars extends React.Component {
                                                 }}
                                                 align="center"
                                             >
-                                                {row.date}
+                                                {row.full_date}
                                             </TableCell>
                                             <TableCell
                                                 style={{
@@ -149,14 +153,6 @@ class Calendars extends React.Component {
                                                 align="center"
                                             >
                                                 {row.worktime}
-                                            </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    minWidth: 10,
-                                                }}
-                                                align="center"
-                                            >
-                                                {row.unit}
                                             </TableCell>
                                             <TableCell
                                                 style={{
@@ -181,6 +177,11 @@ class Calendars extends React.Component {
 function mapStateToProps({ auth }) {
     return { auth };
 }
+
+Calendars.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+};
 
 export default compose(
     withStyles(useStyles),

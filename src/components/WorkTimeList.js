@@ -3,10 +3,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import Table from '@material-ui/core/Table';
-import TableContainer from '@material-ui/core/TableContainer';
-import TablePagination from '@material-ui/core/TablePagination';
-import Paper from '@material-ui/core/Paper';
+import { PropTypes } from 'prop-types';
+import {
+    Table,
+    TableContainer,
+    TablePagination,
+    Paper,
+} from '@material-ui/core';
 import { Header } from './TableComponents/Header';
 import { Body } from './TableComponents/Body';
 
@@ -14,7 +17,7 @@ function preventDefault(event) {
     event.preventDefault();
 }
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
     root: {
         width: '100%',
     },
@@ -28,9 +31,8 @@ const useStyles = theme => ({
 });
 
 const columns = [
-    { id: 'date', label: '日程', minWidth: 30, align: 'center' },
+    { id: 'full_date', label: '日程', minWidth: 40, align: 'center' },
     { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
-    { id: 'unit', label: 'コマ数', minWidth: 10, align: 'center' },
     { id: 'content', label: '内容', minWidth: 700, align: 'center' },
 ];
 
@@ -38,7 +40,7 @@ class WorkTimeList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            workTimeList: [],
+            responseJson: [],
             loading: false,
             page: 0,
             rowsPerPage: 10,
@@ -55,13 +57,13 @@ class WorkTimeList extends React.Component {
         // データ取得
         const studentId = this.props.auth.user.studentId;
         return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
-            .then(response => response.json())
-            .then(responseJson => {
+            .then((response) => response.json())
+            .then((responseJson) => {
                 this.setState({
-                    workTimeList: responseJson,
+                    responseJson: responseJson,
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error);
             });
     }
@@ -75,21 +77,32 @@ class WorkTimeList extends React.Component {
         this.setState({ page: 0 });
     }
 
+    // 配列の整形
+    createArray() {
+        const res = this.state.responseJson;
+        const array = [];
+        for (let i in res) {
+            array.push({
+                full_date: res[i].date.full_date,
+                worktime: res[i].time.display,
+                content: res[i].content,
+            });
+        }
+        return array;
+    }
+
     render() {
         const { classes } = this.props;
+        const workTimeList = this.createArray();
         return (
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
                     <React.Fragment>
                         <Table stickyHeader arial-label="sticky table">
-                            <Header
-                                children={{
-                                    columns: columns,
-                                }}
-                            />
+                            <Header columns={columns} />
                             <Body
-                                children={{
-                                    list: this.state.workTimeList,
+                                data={{
+                                    list: workTimeList,
                                     columns: columns,
                                     page: this.state.page,
                                     rowsPerPage: this.state.rowsPerPage,
@@ -101,7 +114,7 @@ class WorkTimeList extends React.Component {
                 <TablePagination
                     rowsPerPageOptions={[10, 30, 50]}
                     component="div"
-                    count={this.state.workTimeList.length}
+                    count={workTimeList.length}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.page}
                     onChangePage={this.handleChangePage}
@@ -115,6 +128,11 @@ class WorkTimeList extends React.Component {
 function mapStateToProps({ auth }) {
     return { auth };
 }
+
+WorkTimeList.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+};
 
 export default compose(
     withStyles(useStyles),

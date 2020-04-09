@@ -1,14 +1,13 @@
 import React from 'react';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import PropTypes from 'prop-types';
+import { TableCell, TableRow, TableHead } from '@material-ui/core';
 
 export function Header(props) {
-    const { columns } = props.children;
+    const { columns } = props;
     return (
         <TableHead style={{ backgroundColor: '#D9E5FF' }}>
             <TableRow>
-                {columns.map(columns => (
+                {columns.map((columns) => (
                     <TableCell
                         key={columns.id}
                         align={columns.align}
@@ -23,3 +22,7 @@ export function Header(props) {
         </TableHead>
     );
 }
+
+Header.propTypes = {
+    columns: PropTypes.array.isRequired,
+};
