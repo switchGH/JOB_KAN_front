@@ -18,8 +18,11 @@ function preventDefault(event) {
 }
 
 const useStyles = (theme) => ({
-    root: {
-        width: '100%',
+    paper: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
     },
     container: {
         maxHeight: 440,
@@ -95,7 +98,7 @@ class WorkTimeList extends React.Component {
         const { classes } = this.props;
         const workTimeList = this.createArray();
         return (
-            <Paper className={classes.root}>
+            <Paper className={classes.paper}>
                 <TableContainer className={classes.container}>
                     <React.Fragment>
                         <Table stickyHeader arial-label="sticky table">

@@ -15,11 +15,14 @@ import { Body } from './TableComponents/Body';
 import { createMonthlyList } from '../modules/handleArray';
 
 const useStyles = (theme) => ({
-    root: {
-        width: '100%',
+    paper: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
     },
     container: {
-        maxHeight: 440,
+        // maxHeight: 440,
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
@@ -77,11 +80,20 @@ class MonthlyWorkTimeList extends React.Component {
             if (res[i].date.month == id) {
                 array.push({
                     full_date: res[i].date.full_date,
+                    day: parseInt(res[i].date.day, 10),
                     worktime: res[i].time.display,
                     content: res[i].connect,
                 });
             }
         }
+        // 昇順にソート
+        array.sort((front, back) => {
+            if (front.day > back.day) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
         return array;
     }
 
@@ -89,14 +101,14 @@ class MonthlyWorkTimeList extends React.Component {
         const classes = this.props.classes;
         const workTimeList = this.createArray();
         return (
-            <Paper className={classes.root}>
+            <Paper className={classes.paper}>
                 <TableContainer className={classes.container}>
                     <React.Fragment>
                         {/* <CreateTable children={list} page={this.state.page} /> */}
                         <Table stickyHeader arial-label="sticky table">
-                            <Header children={{ columns: columns }} />
+                            <Header columns={columns} />
                             <Body
-                                children={{
+                                data={{
                                     list: workTimeList,
                                     columns: columns,
                                     page: this.state.page,

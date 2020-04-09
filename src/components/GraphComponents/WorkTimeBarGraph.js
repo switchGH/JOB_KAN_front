@@ -13,9 +13,11 @@ import {
 import { PropTypes } from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    paper: {
         padding: theme.spacing(2),
-        width: '1200px',
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
     },
     title: {
         align: 'center',
@@ -30,7 +32,7 @@ export function WorkTimeBarGraph(props) {
     const worklist = props.data;
 
     return (
-        <Paper className={classes.root}>
+        <Paper className={classes.paper}>
             <Typography variant="h6" component="h6" className={classes.title}>
                 作業時間
             </Typography>

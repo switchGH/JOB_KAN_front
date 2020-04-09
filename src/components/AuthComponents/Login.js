@@ -23,10 +23,10 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
+            {/* <Link color="inherit" href="https://material-ui.com/"> */}
+            {'JOB_KAN 2020 Switch'}
+            {/* </Link>{' '} */}
+            {/* {new Date().getFullYear()} */}
             {'.'}
         </Typography>
     );
@@ -136,7 +136,7 @@ class Login extends React.Component {
                         >
                             LogIn
                         </Button>
-                        <Grid container>
+                        {/* <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
                                     Forgot password?
@@ -147,7 +147,7 @@ class Login extends React.Component {
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                     </form>
                 </div>
                 <Box mt={8}>

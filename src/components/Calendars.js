@@ -123,16 +123,14 @@ class Calendars extends React.Component {
                             />
                             {/* </div> */}
                         </Paper>
-                        {/* <Paper className={classes.paper_bottom}>
-                            <span>日程：　{this.state.format_date}</span>
-                            <span>作業時間：　{this.state.work_time}</span>
-                        </Paper> */}
+                    </Grid>
+                    <Grid item xs={12}>
                         <TableContainer component={Paper}>
                             <Table
                                 className={classes.table}
                                 aria-label="simple table"
                             >
-                                <Header children={{ columns: columns }} />
+                                <Header columns={columns} />
                                 <TableBody>
                                     {this.state.worklist.map((row) => (
                                         <TableRow key={row._id}>

@@ -32,10 +32,11 @@ function createWorkTime(data) {
 }
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    paper: {
         padding: theme.spacing(2),
-        width: '500px',
-        height: '650px',
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
     },
     title: {
         align: 'center',
@@ -69,7 +70,7 @@ export function TotalMonthTime(props) {
 
     return (
         <React.Fragment>
-            <Paper className={classes.root}>
+            <Paper className={classes.paper}>
                 <Typography
                     variant="h6"
                     component="h6"
