@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import { PropTypes, number } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
@@ -50,25 +50,83 @@ const useStyles = (theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    typography: {
+        flexGrow: 1,
+        textAlign: 'center',
+        color: 'red',
+    },
 });
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            errorText_userInfo: '',
+            errorText_id: '学籍番号を入力してください',
+            errorText_name: '名前を入力してください',
+            errorText_password: 'パスワードを入力してください',
+        };
         //console.log(this.props.dispatch);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChangeStudentId = this.onChangeStudentId.bind(this);
+        this.onChangeName = this.onChangeName.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
     }
 
     handleSubmit(e) {
         const target = e.target;
         e.preventDefault();
-        this.props.dispatch(
-            requestLogin({
-                studentId: target.studentId.value.trim(),
-                name: target.name.value.trim(),
-                password: target.password.value.trim(),
-            })
-        );
+        const { errorText_id, errorText_name, errorText_password } = this.state;
+
+        if (!errorText_id && !errorText_name && !errorText_password) {
+            this.setState({
+                errorText_userInfo: '',
+            });
+            this.props.dispatch(
+                requestLogin({
+                    studentId: target.studentId.value.trim(),
+                    name: target.name.value.trim(),
+                    password: target.password.value.trim(),
+                })
+            );
+        } else {
+            this.setState({
+                errorText_userInfo: '全ての項目を埋めてください',
+            });
+        }
+    }
+
+    onChangeStudentId(e) {
+        const studentId = e.target.value;
+        if (studentId.length == 10) {
+            this.setState({ errorText_id: '' });
+        } else {
+            this.setState({
+                errorText_id: '学籍番号を入力してください',
+            });
+        }
+    }
+
+    onChangeName(e) {
+        const name = e.target.value;
+        if (name) {
+            this.setState({ errorText_name: '' });
+        } else {
+            this.setState({
+                errorText_name: '名前を入力してください',
+            });
+        }
+    }
+
+    onChangePassword(e) {
+        const password = e.target.value;
+        if (password.length >= 8) {
+            this.setState({ errorText_password: '' });
+        } else {
+            this.setState({
+                errorText_password: 'パスワードを入力してください',
+            });
+        }
     }
 
     render() {
@@ -90,6 +148,9 @@ class Login extends React.Component {
                         onSubmit={this.handleSubmit}
                     >
                         <TextField
+                            error={!!this.state.errorText_id}
+                            helperText={this.state.errorText_id}
+                            onChange={this.onChangeStudentId}
                             variant="outlined"
                             margin="normal"
                             required
@@ -100,6 +161,9 @@ class Login extends React.Component {
                             autoComplete="studentId"
                         />
                         <TextField
+                            error={!!this.state.errorText_name}
+                            helperText={this.state.errorText_name}
+                            onChange={this.onChangeName}
                             variant="outlined"
                             margin="normal"
                             required
@@ -111,6 +175,9 @@ class Login extends React.Component {
                             autoFocus
                         />
                         <TextField
+                            error={!!this.state.errorText_password}
+                            helperText={this.state.errorText_password}
+                            onChange={this.onChangePassword}
                             variant="outlined"
                             margin="normal"
                             required
@@ -136,6 +203,15 @@ class Login extends React.Component {
                         >
                             LogIn
                         </Button>
+                        <Typography
+                            variant="caption"
+                            display="block"
+                            className={classes.typography}
+                            gutterBottom
+                        >
+                            {this.props.auth.error}
+                            {this.state.errorText_userInfo}
+                        </Typography>
                         {/* <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
