@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { Header } from './TableComponents/Header';
 import { Body } from './TableComponents/Body';
-import { createMonthlyList } from '../modules/handleArray';
+import { get } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     paper: {
@@ -47,19 +47,19 @@ class MonthlyWorkTimeList extends React.Component {
         //this.createArray = this.createArray.bind(this);
     }
 
-    componentDidMount() {
-        //const studentId = this.props.auth.user.studentId;
-        const studentId = 1610370216;
-        return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    responseJson: responseJson,
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    async componentDidMount() {
+        // 認証
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
+        // データ取得
+        const studentId = this.props.auth.user.studentId;
+        try {
+            const response = await get({ studentId });
+            this.setState({ responseJson: response });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     handleChangePage(e, newPage) {

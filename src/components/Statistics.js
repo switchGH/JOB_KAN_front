@@ -9,6 +9,7 @@ import { WorkTimeBarGraph } from './GraphComponents/WorkTimeBarGraph';
 import { UnitBarGraph } from './GraphComponents/UnitBarGraph';
 import { TotalMonthTime } from './GraphComponents/TotalMonthTime';
 import { isArrayExists } from '../modules/handleArray';
+import { get } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -25,33 +26,22 @@ class Statistics extends React.Component {
         super(props);
         this.state = {
             responseJson: [],
-            unit_data: [
-                {
-                    name: 'コマ数',
-                    unit: 33,
-                },
-            ],
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // 認証
-        // if (!this.props.auth.isLoggedIn) {
-        //     this.props.dispatch(push('/login'));
-        // }
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
         // データ取得
-        // const studentId = this.props.auth.user.studentId;
-        const studentId = 1610370216;
-        return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    responseJson: responseJson,
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const studentId = this.props.auth.user.studentId;
+        try {
+            const response = await get({ studentId });
+            this.setState({ responseJson: response });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     // 雛形を作成

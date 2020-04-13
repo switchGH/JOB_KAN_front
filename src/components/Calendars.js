@@ -15,8 +15,9 @@ import {
     Container,
 } from '@material-ui/core';
 import Calendar from 'react-calendar';
-import { Header } from './TableComponents/Header';
 import 'react-calendar/dist/Calendar.css';
+import { Header } from './TableComponents/Header';
+import { get } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -60,24 +61,19 @@ class Calendars extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // 認証
-        // if (!this.props.auth.isLoggedIn) {
-        //     this.props.dispatch(push('/login'));
-        // }
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
         // データ取得
-        const studentId = 1610370216;
-        //const studentId = this.props.auth.user.studentId;
-        return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
-            .then((res) => res.json())
-            .then((resJson) => {
-                this.setState({
-                    responseJson: resJson,
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        const studentId = this.props.auth.user.studentId;
+        try {
+            const response = await get({ studentId });
+            this.setState({ responseJson: response });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     formatDate(date, format) {

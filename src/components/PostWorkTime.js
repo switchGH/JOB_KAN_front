@@ -15,6 +15,7 @@ import {
     Typography,
 } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { post } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -22,7 +23,7 @@ const useStyles = (theme) => ({
         paddingBottom: theme.spacing(4),
     },
     paper: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(3),
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
@@ -39,82 +40,111 @@ const useStyles = (theme) => ({
     grid: {
         marginBottom: theme.spacing(3),
     },
+    typography: {
+        paddingTop: theme.spacing(1),
+        flexGrow: 1,
+        textAlign: 'center',
+        color: 'red',
+    },
 });
 
 class PostWorkTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            full_date: '',
-            worktime: '',
-            content: '',
+            errorText: '',
+            errorText_date: '日付を入力してください',
+            errorText_time: '時間を入力してください',
+            errorText_content: '作業内容を入力してください',
         };
         this.changeDate = this.changeDate.bind(this);
         this.changeWorkTime = this.changeWorkTime.bind(this);
         this.changeContent = this.changeContent.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         // 認証
-        if (!this.props.auth.isLoggedIn) {
-            this.props.dispatch(push('/login'));
-        }
+        // if (!this.props.auth.isLoggedIn) {
+        //     this.props.dispatch(push('/login'));
+        // }
     }
 
     changeDate(e) {
-        this.setState({ full_date: e.target.value });
+        const date = e.target.value;
+        console.log(date);
+        if (date) {
+            this.setState({ errorText_date: '' });
+        } else {
+            this.setState({ errorText_date: '日付を入力してください' });
+        }
     }
 
     changeWorkTime(e) {
-        this.setState({ worktime: e.target.value });
+        const time = e.target.value;
+        if (time) {
+            this.setState({ errorText_time: '' });
+        } else {
+            this.setState({ errorText_time: '時間を入力してください' });
+        }
     }
 
     changeContent(e) {
-        this.setState({ content: e.target.value });
+        const content = e.target.value;
+        if (content) {
+            this.setState({ errorText_content: '' });
+        } else {
+            this.setState({ errorText_content: '作業内容を入力してください' });
+        }
     }
 
     // POST
-    handleClick() {
+    async handleSubmit(e) {
+        e.preventDefault();
         const studentId = this.props.auth.user.studentId;
-        const year = parseInt(
-            this.state.full_date.split('-')[0],
-            10
-        ).toString();
-        const month = parseInt(
-            this.state.full_date.split('-')[1],
-            10
-        ).toString();
-        const day = parseInt(this.state.full_date.split('-')[2], 10).toString();
+        const date = e.target.date.value;
+        const time = e.target.time.value;
+        const content = e.target.content.value;
 
-        // POSTデータ
-        const json = {
-            studentId: studentId,
-            date: {
-                full_date: year + '/' + month + '/' + day,
-                year: year,
-                month: month,
-                day: day,
-            },
-            time: {
-                display: this.state.worktime,
-                convert_sec: this.calSecond(this.state.worktime),
-            },
-            content: this.state.content,
-        };
-        //console.log(JSON.stringify(json));
+        if (date && time && content) {
+            this.setState({ errorText: '' });
+            const year = parseInt(date.split('-')[0], 10).toString();
+            const month = parseInt(date.split('-')[1], 10).toString();
+            const day = parseInt(date.split('-')[2], 10).toString();
 
-        return fetch(
-            'http://localhost:3002/api/v1/work-time/' + `${studentId}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                body: JSON.stringify(json),
+            // POSTデータ
+            const body = {
+                studentId: studentId,
+                date: {
+                    full_date: year + '/' + month + '/' + day,
+                    year: year,
+                    month: month,
+                    day: day,
+                },
+                time: {
+                    display: time,
+                    convert_sec: this.calSecond(time),
+                },
+                content: content,
+            };
+
+            try {
+                const res = await post({ studentId, body });
+                this.setState({ errorText: res.message });
+            } catch (e) {
+                console.log(e);
             }
-        )
-            .then((response) => response.json())
-            .then(console.log)
-            .catch(console.error);
+        } else {
+            this.setState({ errorText: '入力できていない箇所があります' });
+        }
+    }
+
+    handleErrors(res) {
+        const json = res.json();
+        const result = json.then((err) => {
+            throw Error(err.message);
+        });
+        console.log(result);
     }
 
     calSecond(time) {
@@ -127,74 +157,69 @@ class PostWorkTime extends React.Component {
         const classes = this.props.classes;
         return (
             <Container maxWidth="lg" className={classes.container}>
-                <Grid container>
-                    <Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                            <React.Fragment>
-                                <Typography
-                                    component="h2"
-                                    variant="h6"
-                                    color="primary"
-                                    gutterBottom
-                                >
-                                    作業時間登録
-                                </Typography>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <Grid
-                                        container
-                                        justify="flex-start"
-                                        spacing={3}
-                                    >
-                                        <Grid
-                                            item
-                                            xs={4}
-                                            className={classes.grid}
-                                        >
-                                            <TextField
-                                                id="date"
-                                                label="作業日時"
-                                                type="date"
-                                                className={classes.textField}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                value={this.state.full_date}
-                                                onChange={this.changeDate}
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={4}
-                                            className={classes.grid}
-                                        >
-                                            <TextField
-                                                id="time"
-                                                label="作業時間"
-                                                type="time"
-                                                className={classes.textField}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                inputProps={{
-                                                    step: 300, // 5 min
-                                                }}
-                                                value={this.state.worktime}
-                                                onChange={this.changeWorkTime}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                </MuiPickersUtilsProvider>
-                                <Grid
-                                    container
-                                    justify="flex-start"
-                                    className={classes.grid}
-                                >
+                <Paper className={classes.paper}>
+                    <React.Fragment>
+                        <Typography
+                            component="h2"
+                            variant="h6"
+                            color="primary"
+                            gutterBottom
+                        >
+                            作業時間登録
+                        </Typography>
+                        <form noValidate onSubmit={this.handleSubmit}>
+                            <Grid container justify="flex-start" spacing={3}>
+                                <Grid item xs={4} className={classes.grid}>
+                                    {/* <MuiPickersUtilsProvider
+                                                utils={DateFnsUtils}
+                                            > */}
                                     <TextField
+                                        error={!!this.state.errorText_date}
+                                        helperText={this.state.errorText_date}
+                                        onChange={this.changeDate}
+                                        //id="date"
+                                        name="date"
+                                        label="作業日付"
+                                        type="date"
+                                        className={classes.textField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        required
+                                    />
+                                    {/* </MuiPickersUtilsProvider> */}
+                                </Grid>
+                                <Grid item xs={4} className={classes.grid}>
+                                    <TextField
+                                        error={!!this.state.errorText_time}
+                                        helperText={this.state.errorText_time}
+                                        onChange={this.changeWorkTime}
+                                        id="time"
+                                        name="time"
+                                        label="作業時間"
+                                        type="time"
+                                        className={classes.textField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        inputProps={{
+                                            step: 300, // 5 min
+                                        }}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        error={!!this.state.errorText_content}
+                                        helperText={
+                                            this.state.errorText_content
+                                        }
+                                        onChange={this.changeContent}
                                         id="outlined-full-width"
+                                        name="content"
                                         label="作業内容"
                                         style={{ margin: 8 }}
                                         placeholder="作業内容...."
-                                        value={this.state.content}
                                         //helperText="Full width!"
                                         fullWidth
                                         margin="normal"
@@ -202,22 +227,32 @@ class PostWorkTime extends React.Component {
                                             shrink: true,
                                         }}
                                         variant="outlined"
-                                        onChange={this.changeContent}
+                                        required
                                     />
                                 </Grid>
                                 <Button
+                                    type="submit"
+                                    fullWidth
                                     variant="contained"
                                     color="primary"
                                     disableElevation
                                     className={classes.button}
-                                    onClick={this.handleClick}
                                 >
                                     記録
                                 </Button>
-                            </React.Fragment>
-                        </Paper>
-                    </Grid>
-                </Grid>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    className={classes.typography}
+                                    gutterBottom
+                                >
+                                    {this.state.errorText}
+                                    {/* {this.props} */}
+                                </Typography>
+                            </Grid>
+                        </form>
+                    </React.Fragment>
+                </Paper>
             </Container>
         );
     }

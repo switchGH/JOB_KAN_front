@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { Header } from './TableComponents/Header';
 import { Body } from './TableComponents/Body';
+import { get } from '../modules/httpRequest';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -52,23 +53,19 @@ class WorkTimeList extends React.Component {
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // 認証
         if (!this.props.auth.isLoggedIn) {
             this.props.dispatch(push('/login'));
         }
         // データ取得
         const studentId = this.props.auth.user.studentId;
-        return fetch('http://localhost:3002/api/v1/work-time/' + `${studentId}`)
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    responseJson: responseJson,
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        try {
+            const response = await get({ studentId });
+            this.setState({ responseJson: response.reverse() });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     handleChangePage(e, newPage) {
