@@ -2,20 +2,18 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export const RoutesWithComponents = props => {
+export const RoutesWithComponents = (props) => {
     const { layout: Layout, component: Component, ...rest } = props;
 
     return (
-        // <Route component={UserOnly}>
         <Route
             {...rest}
-            render={matchProps => (
+            render={(matchProps) => (
                 <Layout>
                     <Component {...matchProps} />
                 </Layout>
             )}
         />
-        // </Route>
     );
 };
 

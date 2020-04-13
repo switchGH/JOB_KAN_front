@@ -10,8 +10,7 @@ import {
     TablePagination,
     Paper,
 } from '@material-ui/core';
-import { Header } from './TableComponents/Header';
-import { Body } from './TableComponents/Body';
+import { Header, Body } from './TableComponents';
 import { get } from '../modules/httpRequest';
 
 function preventDefault(event) {

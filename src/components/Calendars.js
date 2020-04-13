@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Header } from './TableComponents/Header';
+import { Header } from './TableComponents';
 import { get } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({

@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes } from 'prop-types';
 import { Container, Grid } from '@material-ui/core';
-import { WorkTimeBarGraph } from './GraphComponents/WorkTimeBarGraph';
-import { UnitBarGraph } from './GraphComponents/UnitBarGraph';
-import { TotalMonthTime } from './GraphComponents/TotalMonthTime';
+import {
+    WorkTimeBarGraph,
+    UnitBarGraph,
+    TotalMonthTime,
+} from './GraphComponents';
 import { isArrayExists } from '../modules/handleArray';
 import { get } from '../modules/httpRequest';
 

@@ -14,7 +14,6 @@ import {
     Button,
     Typography,
 } from '@material-ui/core';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { post } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
@@ -65,9 +64,9 @@ class PostWorkTime extends React.Component {
 
     componentDidMount() {
         // 認証
-        // if (!this.props.auth.isLoggedIn) {
-        //     this.props.dispatch(push('/login'));
-        // }
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
     }
 
     changeDate(e) {

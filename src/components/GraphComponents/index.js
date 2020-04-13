@@ -1,3 +1,3 @@
-// export { TotalMonthTime as default } from './TotalMonthTime';
-// export { UnitBarGraph as default } from './UnitBarGraph';
-// export { WorkTimeBarGraph as default } from './WorkTimeBarGraph';
+export { TotalMonthTime } from './TotalMonthTime';
+export { UnitBarGraph } from './UnitBarGraph';
+export { WorkTimeBarGraph } from './WorkTimeBarGraph';
