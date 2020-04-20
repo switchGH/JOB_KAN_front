@@ -60,8 +60,9 @@ class WorkTimeList extends React.Component {
         }
         // データ取得
         const studentId = this.props.auth.user.studentId;
+        const url = `http://localhost:3002/api/v1/work-time/${studentId}`;
         try {
-            const response = await get({ studentId });
+            const response = await get({ url });
             this.setState({ responseJson: response.reverse() });
         } catch (e) {
             console.log(e);
@@ -80,7 +81,6 @@ class WorkTimeList extends React.Component {
     // 配列の整形
     createArray() {
         const res = this.state.responseJson;
-        console.log(res);
         const array = [];
         for (let i in res) {
             array.push({

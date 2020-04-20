@@ -17,7 +17,8 @@ import {
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/core/styles';
-import { requestLogin } from '../../actions/auth';
+import { requestLogin, requestJwtLogin } from '../../actions/auth';
+import { get } from '../../modules/httpRequest';
 
 function Copyright() {
     return (
@@ -71,6 +72,18 @@ class Login extends React.Component {
         this.onChangeStudentId = this.onChangeStudentId.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+    }
+
+    async componentDidMount() {
+        const jwt = localStorage.getItem('jwt');
+        let response = {};
+        if (jwt) {
+            this.props.dispatch(
+                requestJwtLogin({
+                    jwt: localStorage.getItem('jwt'),
+                })
+            );
+        }
     }
 
     handleSubmit(e) {

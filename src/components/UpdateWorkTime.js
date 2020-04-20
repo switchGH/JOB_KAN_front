@@ -81,9 +81,9 @@ class UpdateWorkTime extends React.Component {
 
     componentDidMount() {
         // 認証
-        // if (!this.props.auth.isLoggedIn) {
-        //     this.props.dispatch(push('/login'));
-        // }
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
     }
 
     changeID(e) {
@@ -127,6 +127,7 @@ class UpdateWorkTime extends React.Component {
         e.preventDefault();
         const studentId = this.props.auth.user.studentId;
         const objectId = e.target.objectId.value;
+        const url = `http://localhost:3002/api/v1/work-time/${studentId}/${objectId}`;
         const date = e.target.date.value;
         const time = e.target.time.value;
         const content = e.target.content.value;
@@ -155,7 +156,7 @@ class UpdateWorkTime extends React.Component {
             };
 
             try {
-                const res = await put({ objectId, studentId, body, jwt });
+                const res = await put({ url, body, jwt });
                 this.setState({ errorText: res.message });
             } catch (e) {
                 console.log(e);

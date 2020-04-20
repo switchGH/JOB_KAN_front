@@ -1,5 +1,7 @@
 import { createReducer } from 'redux-act';
 import {
+    requestJwtLogin,
+    successJwtLogin,
     requestLogin,
     failureLogin,
     successLogin,
@@ -11,7 +13,6 @@ const initialState = {
         isPrepared: false,
         isLoggedIn: false,
         user: {
-            _id: undefined,
             studentId: undefined,
             name: undefined,
             password: undefined,
@@ -24,6 +25,24 @@ const initialState = {
 
 const auth = createReducer(
     {
+        [requestJwtLogin]: (state) =>
+            Object.assign({}, state, {
+                isRequest: true,
+                error: undefined,
+            }),
+        [successJwtLogin]: (state, payload) =>
+            Object.assign({}, state, {
+                isPrepared: true,
+                isLoggedIn: true,
+                user: {
+                    studentId: payload.user.studentId,
+                    name: payload.user.name,
+                    password: payload.user.password,
+                },
+                isRequest: false,
+                error: undefined,
+                jwt: payload.jwt,
+            }),
         [requestLogin]: (state) =>
             Object.assign({}, state, {
                 isRequest: true,
@@ -39,7 +58,6 @@ const auth = createReducer(
                 isPrepared: true,
                 isLoggedIn: true,
                 user: {
-                    _id: payload.user._id,
                     studentId: payload.user.studentId,
                     name: payload.user.name,
                     password: payload.user.password,

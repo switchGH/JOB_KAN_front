@@ -75,9 +75,9 @@ class PostWorkTime extends React.Component {
 
     componentDidMount() {
         // 認証
-        // if (!this.props.auth.isLoggedIn) {
-        //     this.props.dispatch(push('/login'));
-        // }
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
     }
 
     changeDate(e) {
@@ -115,6 +115,7 @@ class PostWorkTime extends React.Component {
         const time = e.target.time.value;
         const content = e.target.content.value;
         const jwt = this.props.auth.jwt;
+        const url = 'http://localhost:3002/api/v1/work-time/';
 
         if (date && time && content && jwt) {
             this.setState({ errorText: '' });
@@ -139,7 +140,7 @@ class PostWorkTime extends React.Component {
             };
 
             try {
-                const res = await post({ body, jwt });
+                const res = await post({ body, url, jwt });
                 this.setState({ errorText: res.message });
             } catch (e) {
                 console.log(e);

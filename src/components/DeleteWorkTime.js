@@ -65,6 +65,12 @@ class DeleteWorkTime extends React.Component {
         this.changeID = this.changeID.bind(this);
     }
 
+    componentDidMount() {
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
+    }
+
     changeID(e) {
         const id = e.target.value;
         if (24 == id.length) {
@@ -76,15 +82,15 @@ class DeleteWorkTime extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        //const studentId = this.props.auth.user.studentId;
-        const studentId = 1610370216;
+        const studentId = this.props.auth.user.studentId;
         const objectId = e.target.objectId.value;
+        const url = `http://localhost:3002/api/v1/work-time/${studentId}/${objectId}`;
         const jwt = this.props.auth.jwt;
 
         if (studentId && objectId) {
             this.setState({ errorText: '' });
             try {
-                const res = await del({ studentId, objectId, jwt });
+                const res = await del({ url, jwt });
                 console.log(res);
                 this.setState({ errorText: res.message });
             } catch (e) {

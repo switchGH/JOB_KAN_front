@@ -20,7 +20,7 @@ const handleErrors = (res) => {
 };
 
 export const post = (req) => {
-    const url = 'http://localhost:3002/api/v1/work-time/';
+    const url = req.url;
 
     return fetch(url, {
         method: 'POST',
@@ -41,15 +41,20 @@ export const post = (req) => {
 };
 
 export const get = (req) => {
-    const url = 'http://localhost:3002/api/v1/work-time/' + req.studentId;
+    const url = req.url;
 
+    let headers = { 'Content-Type': 'application/json; charset=utf-8' };
+    if (req.jwt) {
+        headers = {
+            'Content-Type': 'application/json; charset=utf-8',
+            authorization: `Bearer ${req.jwt}`,
+        };
+    }
     return fetch(url, {
         method: 'GET',
         mode: 'cors',
         cache: 'default',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-        },
+        headers,
     })
         .catch((e) => {
             throw Error(e);
@@ -61,7 +66,7 @@ export const get = (req) => {
 };
 
 export const del = (req) => {
-    const url = `http://localhost:3002/api/v1/work-time/${req.studentId}/${req.objectId}`;
+    const url = req.url;
 
     return fetch(url, {
         method: 'DELETE',
@@ -82,8 +87,7 @@ export const del = (req) => {
 };
 
 export const put = (req) => {
-    const url = `http://localhost:3002/api/v1/work-time/${req.studentId}/${req.objectId}`;
-
+    const url = req.url;
     return fetch(url, {
         method: 'PUT',
         mode: 'cors',
