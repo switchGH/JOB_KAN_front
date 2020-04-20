@@ -7,6 +7,8 @@ import {
     WorkTimeList,
     Calendars,
     PostWorkTime,
+    DeleteWorkTime,
+    UpdateWorkTime,
     MonthlyWorkTimeList,
     Statistics,
     Settings,
@@ -52,6 +54,18 @@ export const Routes = () => {
                 exact
                 layout={Frame}
                 path="/post"
+            />
+            <RoutesWithComponents
+                component={DeleteWorkTime}
+                exact
+                layout={Frame}
+                path="/delete"
+            />
+            <RoutesWithComponents
+                component={UpdateWorkTime}
+                exact
+                layout={Frame}
+                path="/update"
             />
             <RoutesWithComponents
                 component={Statistics}

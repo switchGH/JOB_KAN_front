@@ -143,7 +143,7 @@ const Frame = (props) => {
                         noWrap
                         className={classes.title}
                     >
-                        JOB_KAN
+                        JOB KAN
                     </Typography>
                     {/* <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">

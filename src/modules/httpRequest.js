@@ -20,7 +20,7 @@ const handleErrors = (res) => {
 };
 
 export const post = (req) => {
-    const url = 'http://localhost:3002/api/v1/work-time/' + req.studentId;
+    const url = 'http://localhost:3002/api/v1/work-time/';
 
     return fetch(url, {
         method: 'POST',
@@ -29,6 +29,7 @@ export const post = (req) => {
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
+            authorization: `Bearer ${req.jwt}`,
         },
         body: JSON.stringify(req.body),
     })
@@ -49,6 +50,49 @@ export const get = (req) => {
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
         },
+    })
+        .catch((e) => {
+            throw Error(e);
+        })
+        .then(handleErrors)
+        .then((res) => {
+            return res.json();
+        });
+};
+
+export const del = (req) => {
+    const url = `http://localhost:3002/api/v1/work-time/${req.studentId}/${req.objectId}`;
+
+    return fetch(url, {
+        method: 'DELETE',
+        mode: 'cors',
+        cache: 'default',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            authorization: `Bearer ${req.jwt}`,
+        },
+    })
+        .catch((e) => {
+            throw Error(e);
+        })
+        .then(handleErrors)
+        .then((res) => {
+            return res.json();
+        });
+};
+
+export const put = (req) => {
+    const url = `http://localhost:3002/api/v1/work-time/${req.studentId}/${req.objectId}`;
+
+    return fetch(url, {
+        method: 'PUT',
+        mode: 'cors',
+        cache: 'default',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            authorization: `Bearer ${req.jwt}`,
+        },
+        body: JSON.stringify(req.body),
     })
         .catch((e) => {
             throw Error(e);

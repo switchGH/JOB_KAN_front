@@ -34,7 +34,8 @@ const useStyles = (theme) => ({
 });
 
 const columns = [
-    { id: 'full_date', label: '日程', minWidth: 40, align: 'center' },
+    { id: 'id', label: 'ID', minWidth: 60, align: 'center' },
+    { id: 'full_date', label: '日程', minWidth: 50, align: 'center' },
     { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
     { id: 'content', label: '内容', minWidth: 700, align: 'center' },
 ];
@@ -79,9 +80,11 @@ class WorkTimeList extends React.Component {
     // 配列の整形
     createArray() {
         const res = this.state.responseJson;
+        console.log(res);
         const array = [];
         for (let i in res) {
             array.push({
+                id: res[i]._id,
                 full_date: res[i].date.full_date,
                 worktime: res[i].time.display,
                 content: res[i].content,

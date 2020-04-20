@@ -13,12 +13,17 @@ import {
     Button,
     Typography,
 } from '@material-ui/core';
-import { post } from '../modules/httpRequest';
+import { put } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
+    },
+    typography: {
+        paddingTop: theme.spacing(1),
+        flexGrow: 1,
+        fontWeight: 'bold',
     },
     paper: {
         padding: theme.spacing(3),
@@ -41,6 +46,10 @@ const useStyles = (theme) => ({
         marginBottom: theme.spacing(3),
         width: '85%',
     },
+    textField_id: {
+        marginBottom: theme.spacing(3),
+        width: '75%',
+    },
     grid: {
         marginBottom: theme.spacing(3),
         textAlign: 'center',
@@ -51,22 +60,19 @@ const useStyles = (theme) => ({
         textAlign: 'center',
         color: 'red',
     },
-    typography: {
-        paddingTop: theme.spacing(1),
-        flexGrow: 1,
-        fontWeight: 'bold',
-    },
 });
 
-class PostWorkTime extends React.Component {
+class UpdateWorkTime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             errorText: '',
+            errorText_id: 'ID入力してください',
             errorText_date: '日付を入力してください',
             errorText_time: '時間を入力してください',
             errorText_content: '作業内容を入力してください',
         };
+        this.changeID = this.changeID.bind(this);
         this.changeDate = this.changeDate.bind(this);
         this.changeWorkTime = this.changeWorkTime.bind(this);
         this.changeContent = this.changeContent.bind(this);
@@ -78,6 +84,15 @@ class PostWorkTime extends React.Component {
         // if (!this.props.auth.isLoggedIn) {
         //     this.props.dispatch(push('/login'));
         // }
+    }
+
+    changeID(e) {
+        const id = e.target.value;
+        if (24 == id.length) {
+            this.setState({ errorText_id: '' });
+        } else {
+            this.setState({ errorText_id: 'IDを入力してください' });
+        }
     }
 
     changeDate(e) {
@@ -107,22 +122,23 @@ class PostWorkTime extends React.Component {
         }
     }
 
-    // POST
+    // PUT
     async handleSubmit(e) {
         e.preventDefault();
         const studentId = this.props.auth.user.studentId;
+        const objectId = e.target.objectId.value;
         const date = e.target.date.value;
         const time = e.target.time.value;
         const content = e.target.content.value;
         const jwt = this.props.auth.jwt;
 
-        if (date && time && content && jwt) {
+        if (objectId && date && time && content && jwt) {
             this.setState({ errorText: '' });
             const year = parseInt(date.split('-')[0], 10).toString();
             const month = parseInt(date.split('-')[1], 10).toString();
             const day = parseInt(date.split('-')[2], 10).toString();
 
-            // POSTデータ
+            // PUTデータ
             const body = {
                 studentId: studentId,
                 date: {
@@ -139,7 +155,7 @@ class PostWorkTime extends React.Component {
             };
 
             try {
-                const res = await post({ body, jwt });
+                const res = await put({ objectId, studentId, body, jwt });
                 this.setState({ errorText: res.message });
             } catch (e) {
                 console.log(e);
@@ -168,7 +184,7 @@ class PostWorkTime extends React.Component {
                             className={classes.typography}
                             gutterBottom
                         >
-                            作業登録
+                            作業更新
                         </Typography>
                         <form noValidate onSubmit={this.handleSubmit}>
                             <Grid
@@ -177,6 +193,21 @@ class PostWorkTime extends React.Component {
                                 spacing={3}
                                 className={classes.grid}
                             >
+                                <Grid item xs={4}>
+                                    <TextField
+                                        error={!!this.state.errorText_id}
+                                        helperText={this.state.errorText_id}
+                                        onChange={this.changeID}
+                                        name="objectId"
+                                        label="作業ID"
+                                        className={classes.textField_id}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        //variant="outlined"
+                                        required
+                                    />
+                                </Grid>
                                 <Grid item xs={4}>
                                     {/* <MuiPickersUtilsProvider
                                                 utils={DateFnsUtils}
@@ -248,7 +279,7 @@ class PostWorkTime extends React.Component {
                                         disableElevation
                                         className={classes.button}
                                     >
-                                        Record
+                                        Update
                                     </Button>
                                     <Typography
                                         variant="caption"
@@ -273,7 +304,7 @@ function mapStateToProps({ auth }) {
     return { auth };
 }
 
-PostWorkTime.propTypes = {
+UpdateWorkTime.propTypes = {
     dispatch: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
 };
@@ -281,4 +312,4 @@ PostWorkTime.propTypes = {
 export default compose(
     withStyles(useStyles),
     connect(mapStateToProps)
-)(PostWorkTime);
+)(UpdateWorkTime);

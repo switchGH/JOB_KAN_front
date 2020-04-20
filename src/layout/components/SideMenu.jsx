@@ -18,6 +18,8 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import CalendarIcon from '@material-ui/icons/DateRange';
 import BarChar from '@material-ui/icons/BarChart';
+import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
 import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -109,7 +111,19 @@ export const MainListItems = (props) => {
                 <ListItemIcon>
                     <CreateIcon />
                 </ListItemIcon>
-                <ListItemText primary="作業記録" />
+                <ListItemText primary="記録" />
+            </ListItem>
+            <ListItem button component={LinkBehavior} to="/delete">
+                <ListItemIcon>
+                    <DeleteIcon />
+                </ListItemIcon>
+                <ListItemText primary="削除" />
+            </ListItem>
+            <ListItem button component={LinkBehavior} to="/update">
+                <ListItemIcon>
+                    <UpdateIcon />
+                </ListItemIcon>
+                <ListItemText primary="更新" />
             </ListItem>
         </div>
     );
@@ -129,7 +143,7 @@ export const SecondaryListItems = () => {
                 <ListItemIcon>
                     <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary="サイトについて" />
+                <ListItemText primary="その他" />
             </ListItem>
         </div>
     );
