@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { RoutesWithComponents } from './components/RootComponents/RoutesWithComponents';
 import Frame from './layout/Frame';
 import { AuthFrame } from './layout/AuthFrame';
@@ -14,16 +14,11 @@ import {
     Settings,
     About,
 } from './components';
-import { Login, UserOnly } from './components/AuthComponents';
+import { Login } from './components/AuthComponents';
 
 export const Routes = () => {
     return (
         <Switch>
-            {/* <Redirect
-                exact
-                from="/"
-                to="/"
-            /> */}
             <RoutesWithComponents
                 component={Login}
                 exact
@@ -85,7 +80,6 @@ export const Routes = () => {
                 layout={Frame}
                 path="/about"
             />
-            {/* </Route> */}
         </Switch>
     );
 };

@@ -14,7 +14,7 @@ const requestAuth = (req) => {
     let endpoint = 'http://localhost:3002/api/v1/users' + req.endpoint;
     let headers = { 'Content-Type': 'application/json; charset=utf-8' };
 
-    if (req.type == 'GET') {
+    if (req.type === 'GET') {
         headers = {
             'Content-Type': 'application/json; charset=utf-8',
             authorization: `Bearer ${req.jwt}`,

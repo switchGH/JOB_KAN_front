@@ -13,6 +13,8 @@ export function Header(props) {
                         align={columns.align}
                         style={{
                             minWidth: columns.minWidth,
+                            fontWeight: columns.fontWeight,
+                            fontSize: columns.fontSize,
                         }}
                     >
                         {columns.label}

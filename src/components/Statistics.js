@@ -11,7 +11,7 @@ import {
     TotalMonthTime,
 } from './GraphComponents';
 import { isArrayExists } from '../modules/handleArray';
-import { get } from '../modules/httpRequest';
+import { request } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -40,7 +40,7 @@ class Statistics extends React.Component {
         const studentId = this.props.auth.user.studentId;
         const url = `http://localhost:3002/api/v1/work-time/${studentId}`;
         try {
-            const response = await get({ url });
+            const response = await request({ url, type: 'GET' });
             this.setState({ responseJson: response });
         } catch (e) {
             console.log(e);
@@ -57,7 +57,7 @@ class Statistics extends React.Component {
             // 同じ年月のものがないか確認
             let { judge, index } = isArrayExists(worklist, year, month);
             // 同じ日付がないなら、配列を作成
-            if (judge == 'NoExit') {
+            if (judge === 'NoExit') {
                 worklist.push({
                     date: year + '/' + month,
                     year: year,
@@ -65,7 +65,7 @@ class Statistics extends React.Component {
                     worktime: second,
                 });
                 // 同じ日付が既に存在するなら、その配列に作業時間を加算
-            } else if (judge == 'Exit') {
+            } else if (judge === 'Exit') {
                 worklist[index].worktime += second;
             }
         }

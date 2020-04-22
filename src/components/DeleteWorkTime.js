@@ -12,7 +12,7 @@ import {
     TextField,
     Button,
 } from '@material-ui/core';
-import { del } from '../modules/httpRequest';
+import { request } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -73,7 +73,7 @@ class DeleteWorkTime extends React.Component {
 
     changeID(e) {
         const id = e.target.value;
-        if (24 == id.length) {
+        if (24 === id.length) {
             this.setState({ errorText_id: '' });
         } else {
             this.setState({ errorText_id: 'IDを入力してください' });
@@ -90,7 +90,7 @@ class DeleteWorkTime extends React.Component {
         if (studentId && objectId) {
             this.setState({ errorText: '' });
             try {
-                const res = await del({ url, jwt });
+                const res = await request({ url, type: 'DELETE', jwt });
                 console.log(res);
                 this.setState({ errorText: res.message });
             } catch (e) {

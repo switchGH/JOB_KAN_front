@@ -2,6 +2,7 @@ import { createReducer } from 'redux-act';
 import {
     requestJwtLogin,
     successJwtLogin,
+    failureJwtLogin,
     requestLogin,
     failureLogin,
     successLogin,
@@ -42,6 +43,11 @@ const auth = createReducer(
                 isRequest: false,
                 error: undefined,
                 jwt: payload.jwt,
+            }),
+        [failureJwtLogin]: (state, err) =>
+            Object.assign({}, state, {
+                isLoggedIn: false,
+                error: err,
             }),
         [requestLogin]: (state) =>
             Object.assign({}, state, {

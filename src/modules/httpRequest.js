@@ -19,85 +19,22 @@ const handleErrors = (res) => {
     }
 };
 
-export const post = (req) => {
+export const request = (req) => {
     const url = req.url;
-
-    return fetch(url, {
-        method: 'POST',
+    let obj = {
+        method: req.type,
         cache: 'no-cache',
         mode: 'cors',
         credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            authorization: `Bearer ${req.jwt}`,
-        },
-        body: JSON.stringify(req.body),
-    })
-        .catch((e) => {
-            throw Error(e);
-        })
-        .then(handleErrors)
-        .then((response) => response.json());
-};
-
-export const get = (req) => {
-    const url = req.url;
-
-    let headers = { 'Content-Type': 'application/json; charset=utf-8' };
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    };
     if (req.jwt) {
-        headers = {
-            'Content-Type': 'application/json; charset=utf-8',
-            authorization: `Bearer ${req.jwt}`,
-        };
+        obj.headers.authorization = `Bearer ${req.jwt}`;
     }
-    return fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default',
-        headers,
-    })
-        .catch((e) => {
-            throw Error(e);
-        })
-        .then(handleErrors)
-        .then((res) => {
-            return res.json();
-        });
-};
-
-export const del = (req) => {
-    const url = req.url;
-
-    return fetch(url, {
-        method: 'DELETE',
-        mode: 'cors',
-        cache: 'default',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            authorization: `Bearer ${req.jwt}`,
-        },
-    })
-        .catch((e) => {
-            throw Error(e);
-        })
-        .then(handleErrors)
-        .then((res) => {
-            return res.json();
-        });
-};
-
-export const put = (req) => {
-    const url = req.url;
-    return fetch(url, {
-        method: 'PUT',
-        mode: 'cors',
-        cache: 'default',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            authorization: `Bearer ${req.jwt}`,
-        },
-        body: JSON.stringify(req.body),
-    })
+    if (req.type === 'POST' || req.type === 'PUT') {
+        obj.body = JSON.stringify(req.body);
+    }
+    return fetch(url, obj)
         .catch((e) => {
             throw Error(e);
         })

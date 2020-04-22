@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export function UseSite(props) {
+export function UseSite() {
     return (
         <div>
             一日に登録できる作業内容は一回まででお願いします。(改善中)
             <ul>
-                <li>作業記録一覧</li>
+                <li>一覧</li>
                 登録した作業内容を一覧で見ることができます。
                 <li>カレンダー</li>
                 日にちをクリックすることで、その日の作業内容を見ることができます。

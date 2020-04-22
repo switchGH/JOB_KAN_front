@@ -17,7 +17,7 @@ import {
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { Header } from './TableComponents';
-import { get } from '../modules/httpRequest';
+import { request } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -45,9 +45,30 @@ const useStyles = (theme) => ({
 });
 
 const columns = [
-    { id: 'date', label: '日程', minWidth: 30, align: 'center' },
-    { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
-    { id: 'content', label: '内容', minWidth: 700, align: 'center' },
+    {
+        id: 'date',
+        label: '日程',
+        minWidth: 30,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'worktime',
+        label: '作業時間',
+        minWidth: 50,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'content',
+        label: '内容',
+        minWidth: 700,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
 ];
 
 class Calendars extends React.Component {
@@ -70,7 +91,7 @@ class Calendars extends React.Component {
         const studentId = this.props.auth.user.studentId;
         const url = `http://localhost:3002/api/v1/work-time/${studentId}`;
         try {
-            const response = await get({ url });
+            const response = await request({ url, type: 'GET' });
             this.setState({ responseJson: response });
         } catch (e) {
             console.log(e);
@@ -92,7 +113,7 @@ class Calendars extends React.Component {
         const resJson = this.state.responseJson;
         let monthData = [];
         for (let i in resJson) {
-            if (resJson[i].date.full_date.replace(/-/g, '/') == format_d) {
+            if (resJson[i].date.full_date.replace(/-/g, '/') === format_d) {
                 monthData.push({
                     _id: resJson[i]._id,
                     full_date: resJson[i].date.full_date,

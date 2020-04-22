@@ -11,11 +11,7 @@ import {
     Paper,
 } from '@material-ui/core';
 import { Header, Body } from './TableComponents';
-import { get } from '../modules/httpRequest';
-
-function preventDefault(event) {
-    event.preventDefault();
-}
+import { request } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     paper: {
@@ -25,19 +21,44 @@ const useStyles = (theme) => ({
         flexDirection: 'column',
     },
     container: {
-        maxHeight: 440,
-    },
-    container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
 });
 
 const columns = [
-    { id: 'id', label: 'ID', minWidth: 60, align: 'center' },
-    { id: 'full_date', label: '日程', minWidth: 50, align: 'center' },
-    { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
-    { id: 'content', label: '内容', minWidth: 700, align: 'center' },
+    {
+        id: 'id',
+        label: 'ID',
+        minWidth: 60,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'full_date',
+        label: '日程',
+        minWidth: 50,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'worktime',
+        label: '作業時間',
+        minWidth: 50,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'content',
+        label: '内容',
+        minWidth: 700,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
 ];
 
 class WorkTimeList extends React.Component {
@@ -62,7 +83,7 @@ class WorkTimeList extends React.Component {
         const studentId = this.props.auth.user.studentId;
         const url = `http://localhost:3002/api/v1/work-time/${studentId}`;
         try {
-            const response = await get({ url });
+            const response = await request({ url, type: 'GET' });
             this.setState({ responseJson: response.reverse() });
         } catch (e) {
             console.log(e);

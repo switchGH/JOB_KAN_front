@@ -18,7 +18,6 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/core/styles';
 import { requestLogin, requestJwtLogin } from '../../actions/auth';
-import { get } from '../../modules/httpRequest';
 
 function Copyright() {
     return (
@@ -67,7 +66,6 @@ class Login extends React.Component {
             errorText_name: '名前を入力してください',
             errorText_password: 'パスワードを入力してください',
         };
-        //console.log(this.props.dispatch);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChangeStudentId = this.onChangeStudentId.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
@@ -76,7 +74,6 @@ class Login extends React.Component {
 
     async componentDidMount() {
         const jwt = localStorage.getItem('jwt');
-        let response = {};
         if (jwt) {
             this.props.dispatch(
                 requestJwtLogin({
@@ -111,7 +108,7 @@ class Login extends React.Component {
 
     onChangeStudentId(e) {
         const studentId = e.target.value;
-        if (studentId.length == 10) {
+        if (studentId.length === 10) {
             this.setState({ errorText_id: '' });
         } else {
             this.setState({

@@ -85,6 +85,12 @@ class About extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    componentDidMount() {
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
+    }
+
     handleChange(e, newValue) {
         this.setState({ value: newValue });
     }

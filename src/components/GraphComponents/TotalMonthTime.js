@@ -6,16 +6,30 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableHead,
     TablePagination,
     TableRow,
 } from '@material-ui/core';
+import { Header } from '../TableComponents';
 import { PropTypes } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
 const columns = [
-    { id: 'date', label: '日付', minWidth: 170 },
-    { id: 'time', label: '作業時間', minWidth: 100 },
+    {
+        id: 'date',
+        label: '日付',
+        minWidth: 80,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'time',
+        label: '作業時間',
+        minWidth: 130,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
 ];
 
 function createWorkTime(data) {
@@ -50,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function TotalMonthTime(props) {
-    console.log(props);
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -80,19 +93,7 @@ export function TotalMonthTime(props) {
                 </Typography>
                 <TableContainer className={classes.container}>
                     <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
+                        <Header columns={columns} />
                         <TableBody>
                             {rows
                                 .slice(
@@ -105,7 +106,6 @@ export function TotalMonthTime(props) {
                                             hover
                                             role="checkbox"
                                             tabIndex={-1}
-                                            key={row.code}
                                         >
                                             {columns.map((column) => {
                                                 const value = row[column.id];

@@ -117,6 +117,22 @@ paths:
                     description: 'Not Found'
                 500:
                     description: 'Internal Server Error'
+        get:
+            tags:
+                - 'users'
+            summary: 'JWTによるユーザー認証'
+            description: 'ローカルストレージのJWTを用いてユーザー認証を行う'
+            parameters:
+                - name: 'jwt'
+                  in: 'header'
+                  description: 'JWT'
+                  required: true
+                  type: 'string'
+            responses:
+                200:
+                    description: 'Authentication　OK'
+                401:
+                    description: 'Authentication error. Token required.'
     /users/{studentId}:
         delete:
             tags:

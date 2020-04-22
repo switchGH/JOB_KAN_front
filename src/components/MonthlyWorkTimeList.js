@@ -11,7 +11,7 @@ import {
     Paper,
 } from '@material-ui/core';
 import { Header, Body } from './TableComponents';
-import { get } from '../modules/httpRequest';
+import { request } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     paper: {
@@ -21,17 +21,44 @@ const useStyles = (theme) => ({
         flexDirection: 'column',
     },
     container: {
-        // maxHeight: 440,
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
 });
 
 const columns = [
-    { id: 'id', label: 'ID', minWidth: 60, align: 'center' },
-    { id: 'full_date', label: '日程', minWidth: 50, align: 'center' },
-    { id: 'worktime', label: '作業時間', minWidth: 50, align: 'center' },
-    { id: 'content', label: '内容', minWidth: 700, align: 'center' },
+    {
+        id: 'id',
+        label: 'ID',
+        minWidth: 60,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'full_date',
+        label: '日程',
+        minWidth: 50,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'worktime',
+        label: '作業時間',
+        minWidth: 50,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
+    {
+        id: 'content',
+        label: '内容',
+        minWidth: 700,
+        align: 'center',
+        fontWeight: 'bold',
+        fontSize: '17px',
+    },
 ];
 
 class MonthlyWorkTimeList extends React.Component {
@@ -56,7 +83,7 @@ class MonthlyWorkTimeList extends React.Component {
         const studentId = this.props.auth.user.studentId;
         const url = `http://localhost:3002/api/v1/work-time/${studentId}`;
         try {
-            const response = await get({ url });
+            const response = await request({ url, type: 'GET' });
             this.setState({ responseJson: response });
         } catch (e) {
             console.log(e);
@@ -64,7 +91,6 @@ class MonthlyWorkTimeList extends React.Component {
     }
 
     handleChangePage(e, newPage) {
-        //console.log(newPage);
         this.setState({ page: newPage });
     }
 
@@ -78,7 +104,7 @@ class MonthlyWorkTimeList extends React.Component {
         const res = this.state.responseJson;
         const id = this.props.match.params.id;
         for (let i in res) {
-            if (res[i].date.month == id) {
+            if (res[i].date.month === id) {
                 array.push({
                     id: res[i]._id,
                     full_date: res[i].date.full_date,

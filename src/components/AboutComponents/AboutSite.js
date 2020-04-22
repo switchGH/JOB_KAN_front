@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export function AboutSite(props) {
+export function AboutSite() {
     return (
         <div>
             <p>JOB KAN ver1.0.0 (2020/4/)</p>

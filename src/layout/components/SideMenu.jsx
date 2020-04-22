@@ -23,11 +23,11 @@ import UpdateIcon from '@material-ui/icons/Update';
 import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-    // root: {
-    //     width: '100%',
-    //     maxWidth: 360,
-    //     backgroundColor: theme.palette.background.paper,
-    // },
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+    },
     nested: {
         paddingLeft: theme.spacing(4),
     },
@@ -60,13 +60,13 @@ export const MainListItems = (props) => {
     };
 
     return (
-        <div>
+        <div className={classes.root}>
             <ListSubheader inset>Main</ListSubheader>
             <ListItem button component={LinkBehavior} to="/">
                 <ListItemIcon>
                     <ReorderIcon />
                 </ListItemIcon>
-                <ListItemText primary="作業記録一覧" />
+                <ListItemText primary="一覧" />
             </ListItem>
             <ListItem button component={LinkBehavior} to="/calendar">
                 <ListItemIcon>

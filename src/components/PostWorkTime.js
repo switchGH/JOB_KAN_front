@@ -13,7 +13,7 @@ import {
     Button,
     Typography,
 } from '@material-ui/core';
-import { post } from '../modules/httpRequest';
+import { request } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -140,7 +140,7 @@ class PostWorkTime extends React.Component {
             };
 
             try {
-                const res = await post({ body, url, jwt });
+                const res = await request({ body, type: 'POST', url, jwt });
                 this.setState({ errorText: res.message });
             } catch (e) {
                 console.log(e);

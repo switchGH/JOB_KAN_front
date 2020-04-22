@@ -10,7 +10,7 @@ export function Body(props) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((work) => {
                     return (
-                        <TableRow hover role="checkbox" key={work.date}>
+                        <TableRow hover role="checkbox" key={work.id}>
                             {columns.map((column) => {
                                 let value = work[column.id];
                                 return (

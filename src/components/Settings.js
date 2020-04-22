@@ -22,6 +22,11 @@ const useStyles = (theme) => ({
 });
 
 class Settings extends React.Component {
+    componentDidMount() {
+        if (!this.props.auth.isLoggedIn) {
+            this.props.dispatch(push('/login'));
+        }
+    }
     render() {
         const { classes } = this.props;
         return (

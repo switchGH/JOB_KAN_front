@@ -13,7 +13,7 @@ import {
     Button,
     Typography,
 } from '@material-ui/core';
-import { put } from '../modules/httpRequest';
+import { request } from '../modules/httpRequest';
 
 const useStyles = (theme) => ({
     container: {
@@ -88,7 +88,7 @@ class UpdateWorkTime extends React.Component {
 
     changeID(e) {
         const id = e.target.value;
-        if (24 == id.length) {
+        if (24 === id.length) {
             this.setState({ errorText_id: '' });
         } else {
             this.setState({ errorText_id: 'IDを入力してください' });
@@ -156,7 +156,7 @@ class UpdateWorkTime extends React.Component {
             };
 
             try {
-                const res = await put({ url, body, jwt });
+                const res = await request({ url, type: 'PUT', body, jwt });
                 this.setState({ errorText: res.message });
             } catch (e) {
                 console.log(e);

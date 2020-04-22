@@ -1,4 +1,4 @@
-import { select, put, take, call, fork, join } from 'redux-saga/effects';
+import { put, take, call, fork } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 // select: Stateから必要なデータを取り出す
 // put: Actionをdispatchする
@@ -9,6 +9,7 @@ import { push } from 'connected-react-router';
 import {
     requestJwtLogin,
     successJwtLogin,
+    failureJwtLogin,
     requestLogin,
     failureLogin,
     successLogin,
@@ -21,13 +22,15 @@ function* handleJwtLogin() {
     while (true) {
         const action = yield take(requestJwtLogin);
         const { jwt } = action.payload;
-        console.log(action);
         const { payload, err } = yield call(requestAuth, {
             endpoint: '/login',
             type: 'GET',
             jwt,
         });
-        console.log(payload);
+        if (!payload && err) {
+            yield put(failureJwtLogin(String(err).split('Error: ')[1]));
+            continue;
+        }
         const user = payload.result[0];
         yield put(successJwtLogin(Object.assign({}, { jwt }, { user })));
         yield put(push('/'));
@@ -53,7 +56,6 @@ function* handleLogin() {
         const jwt = payload.token;
         const user = payload.result;
         localStorage.setItem('jwt', jwt);
-        //console.log(Object.assign({}, { user }, { jwt }));
         // 認証成功
         yield put(successLogin(Object.assign({}, { user }, { jwt })));
         yield put(push('/'));
