@@ -23,7 +23,7 @@ function* handleJwtLogin() {
         const action = yield take(requestJwtLogin);
         const { jwt } = action.payload;
         const { payload, err } = yield call(requestAuth, {
-            endpoint: '/login',
+            endpoint: '/users/login',
             type: 'GET',
             jwt,
         });
@@ -43,7 +43,7 @@ function* handleLogin() {
         const action = yield take(requestLogin);
         // 認証処理の呼び出し
         const { payload, err } = yield call(requestAuth, {
-            endpoint: '/login',
+            endpoint: '/users/login',
             type: 'POST',
             body: action.payload, // { studentId, name, password }
         });

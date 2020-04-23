@@ -219,7 +219,7 @@ class Login extends React.Component {
                             className={classes.typography}
                             gutterBottom
                         >
-                            {this.props.auth.error}
+                            {/* {this.props.auth.error} */}
                             {this.state.errorText_userInfo}
                         </Typography>
                         {/* <Grid container>

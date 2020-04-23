@@ -115,7 +115,7 @@ class PostWorkTime extends React.Component {
         const time = e.target.time.value;
         const content = e.target.content.value;
         const jwt = this.props.auth.jwt;
-        const url = 'http://localhost:3002/api/v1/work-time/';
+        const endpoint = '/work-time/';
 
         if (date && time && content && jwt) {
             this.setState({ errorText: '' });
@@ -140,7 +140,12 @@ class PostWorkTime extends React.Component {
             };
 
             try {
-                const res = await request({ body, type: 'POST', url, jwt });
+                const res = await request({
+                    body,
+                    type: 'POST',
+                    endpoint,
+                    jwt,
+                });
                 this.setState({ errorText: res.message });
             } catch (e) {
                 console.log(e);

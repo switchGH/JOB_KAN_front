@@ -84,13 +84,13 @@ class DeleteWorkTime extends React.Component {
         e.preventDefault();
         const studentId = this.props.auth.user.studentId;
         const objectId = e.target.objectId.value;
-        const url = `http://localhost:3002/api/v1/work-time/${studentId}/${objectId}`;
+        const endpoint = `/work-time/${studentId}/${objectId}`;
         const jwt = this.props.auth.jwt;
 
         if (studentId && objectId) {
             this.setState({ errorText: '' });
             try {
-                const res = await request({ url, type: 'DELETE', jwt });
+                const res = await request({ endpoint, type: 'DELETE', jwt });
                 console.log(res);
                 this.setState({ errorText: res.message });
             } catch (e) {

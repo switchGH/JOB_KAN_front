@@ -81,9 +81,9 @@ class WorkTimeList extends React.Component {
         }
         // データ取得
         const studentId = this.props.auth.user.studentId;
-        const url = `http://localhost:3002/api/v1/work-time/${studentId}`;
+        const endpoint = `/work-time/${studentId}`;
         try {
-            const response = await request({ url, type: 'GET' });
+            const response = await request({ endpoint, type: 'GET' });
             this.setState({ responseJson: response.reverse() });
         } catch (e) {
             console.log(e);

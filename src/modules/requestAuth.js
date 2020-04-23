@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const handleErrors = (res) => {
     const json = res.json();
 
@@ -11,7 +13,7 @@ const handleErrors = (res) => {
 };
 
 const requestAuth = (req) => {
-    let endpoint = 'http://localhost:3002/api/v1/users' + req.endpoint;
+    let endpoint = process.env.REACT_APP_API_URL + req.endpoint;
     let headers = { 'Content-Type': 'application/json; charset=utf-8' };
 
     if (req.type === 'GET') {

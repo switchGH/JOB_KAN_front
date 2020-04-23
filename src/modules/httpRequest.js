@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const handleErrors = (res) => {
     if (res.ok) {
         return res;
@@ -20,7 +22,7 @@ const handleErrors = (res) => {
 };
 
 export const request = (req) => {
-    const url = req.url;
+    const url = process.env.REACT_APP_API_URL + req.endpoint;
     let obj = {
         method: req.type,
         cache: 'no-cache',
