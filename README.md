@@ -1,27 +1,24 @@
 # JOB KAN
 
 作業時間を管理できる Web アプリケーションです。
+JOBKAN ver1.0.0(2020/4/24)
+
+![スクリーンショット 2020-04-24 18 07 03](https://user-images.githubusercontent.com/36882742/80195335-a44c6180-8656-11ea-8781-2f608fa1de92.png)
+
+## Requirement
+
+Javascript v12.16.1
+React
+Material UI
 
 ## Description
 
-## API
+自身の作業を管理することができます。現在 Beta により、ユーザープロフィールに関する機能(更新,削除)を作成中です。
 
-### ユーザー操作
+## Demo
 
-| メソッド |        url         |        処理        |
-| :------: | :----------------: | :----------------: |
-|   GET    |       /users       | ユーザー情報の取得 |
-|   POST   |   /users/signup    |   ユーザーの登録   |
-|   POST   |    /users/login    |    ログイン処理    |
-|   GET    |    /users/login    |      JWT 認証      |
-|  DELETE  | /users/{studentId} |   ユーザーの削除   |
+![JOBKAN_demo](https://user-images.githubusercontent.com/36882742/80208292-db2c7280-866a-11ea-8e87-9f4a6870dfc4.gif)
 
-### 作業時間操作
+## Author
 
-| メソッド |                url                |           処理           |
-| :------: | :-------------------------------: | :----------------------: |
-|   GET    |            /work-time             |      作業情報の取得      |
-|   POST   |            /work-time             |      作業情報の登録      |
-|   GET    |      /work-time/{studentId}       | ユーザーの作業情報の取得 |
-|  DELETE  | /work-time/{studentId}/{objectId} |      作業情報の削除      |
-|   PUT    | /work-time/{studentId}/{objectId} |      作業記録の更新      |
+[Switch](https://github.com/switchGH)
