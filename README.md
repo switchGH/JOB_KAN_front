@@ -1,6 +1,7 @@
 # JOB KAN
 
-ECL 研究室で運用、作業時間管理できる Web アプリケーション。　　
+ECL 研究室で運用、作業時間管理できる Web アプリケーション。
+
 JOBKAN ver1.0.0(2020/4/24)
 
 ![スクリーンショット 2020-04-24 18 07 03](https://user-images.githubusercontent.com/36882742/80195335-a44c6180-8656-11ea-8781-2f608fa1de92.png)
@@ -24,6 +25,7 @@ Material UI
 ## Note
 
 アップデート中。
+JOBKAN_back リポジトリは Private 化中。API は公開予定。
 
 ## Author
 

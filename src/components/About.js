@@ -113,7 +113,7 @@ class About extends React.Component {
                                     aria-label="simple tabs example"
                                 >
                                     <Tab
-                                        label="このサイトについて"
+                                        label="このアプリについて"
                                         className={classes.tab}
                                         {...a11yProps(0)}
                                     />
