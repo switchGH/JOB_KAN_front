@@ -11,6 +11,7 @@ import {
     UpdateWorkTime,
     MonthlyWorkTimeList,
     Statistics,
+    People,
     Settings,
     About,
 } from './components';
@@ -67,6 +68,12 @@ export const Routes = () => {
                 exact
                 layout={Frame}
                 path="/statistics"
+            />
+            <RoutesWithComponents
+                component={People}
+                exact
+                layout={Frame}
+                path="/people"
             />
             <RoutesWithComponents
                 component={Settings}

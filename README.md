@@ -2,7 +2,7 @@
 
 ECL 研究室で運用、作業時間管理できる Web アプリケーション。
 
-JOBKAN ver1.0.0(2020/4/24)
+JOBKAN ver1.1.1(2020/5/5)
 
 ![スクリーンショット 2020-04-24 18 07 03](https://user-images.githubusercontent.com/36882742/80195335-a44c6180-8656-11ea-8781-2f608fa1de92.png)
 

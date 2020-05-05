@@ -138,7 +138,7 @@ class MonthlyWorkTimeList extends React.Component {
                             <Body
                                 data={{
                                     list: workTimeList,
-                                    columns: columns,
+                                    columns,
                                     page: this.state.page,
                                     rowsPerPage: this.state.rowsPerPage,
                                 }}

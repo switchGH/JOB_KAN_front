@@ -20,6 +20,7 @@ import CalendarIcon from '@material-ui/icons/DateRange';
 import BarChar from '@material-ui/icons/BarChart';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
+import PeopleIcon from '@material-ui/icons/People';
 import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -105,6 +106,14 @@ export const MainListItems = (props) => {
                     <BarChar />
                 </ListItemIcon>
                 <ListItemText primary="統計" />
+                {/* </Button> */}
+            </ListItem>
+            <ListItem button component={LinkBehavior} to="/people">
+                {/* <Button component={LinkBehavior} to="/"> */}
+                <ListItemIcon>
+                    <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="全ユーザーの進捗" />
                 {/* </Button> */}
             </ListItem>
             <ListItem button component={LinkBehavior} to="/post">

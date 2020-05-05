@@ -19,19 +19,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withStyles } from '@material-ui/core/styles';
 import { requestLogin, requestJwtLogin } from '../../actions/auth';
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            {/* <Link color="inherit" href="https://material-ui.com/"> */}
-            {'JOB_KAN 2020 Switch'}
-            {/* </Link>{' '} */}
-            {/* {new Date().getFullYear()} */}
-            {'.'}
-        </Typography>
-    );
-}
-
 const useStyles = (theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -236,9 +223,6 @@ class Login extends React.Component {
                         </Grid> */}
                     </form>
                 </div>
-                <Box mt={8}>
-                    <Copyright />
-                </Box>
             </Container>
         );
     }

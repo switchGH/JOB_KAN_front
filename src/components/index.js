@@ -3,6 +3,7 @@ export { default as Calendars } from './Calendars';
 export { default as MonthlyWorkTimeList } from './MonthlyWorkTimeList';
 export { default as PostWorkTime } from './PostWorkTime';
 export { default as Statistics } from './Statistics';
+export { default as People } from './People';
 export { default as DeleteWorkTime } from './DeleteWorkTime';
 export { default as UpdateWorkTime } from './UpdateWorkTime';
 export { default as Settings } from './Settings';
